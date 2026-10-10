@@ -6,7 +6,21 @@ multi-domain industrial workforces". It is an anonymised copy for review; the fu
 will be released under the MIT licence on acceptance.
 
 Everything needed to regenerate the paper's numbers from the per-image pose caches is
-included. The source images are not redistributed (see "Data" below).
+included. The source images are not redistributed; the two figures below show face-pixelated crops, as in the paper (see "Data" below).
+
+## Figures
+
+**Supplementary Fig. S4.** Every compared pose model (rows) on the nine domain-by-risk-tier images
+(columns), drawn from real inference; produced by `topic/E/src/fig_pose_models_grid.py`.
+
+![Supplementary Fig. S4](docs/S4.jpg)
+
+**Supplementary Fig. S9.** 3D skeletons fitted under human range-of-motion limits, before and after
+the standing-balance prior (grey: other solutions within the fit tolerance); produced by
+`topic/E/src/fig_lift3d_examples.py`. The balance prior makes the skeleton stand upright over its
+feet but did not improve trunk-angle accuracy against motion capture (Supplementary Table S9.1).
+
+![Supplementary Fig. S9](docs/S9.jpg)
 
 ## Quick start
 
