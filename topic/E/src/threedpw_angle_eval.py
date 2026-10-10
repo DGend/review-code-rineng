@@ -22,8 +22,8 @@ import numpy as np
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from carda_angle_eval import (ANGLES, ROOT, _lift_one, frame_3d, hands_2d, measure, report,  # noqa: E402
-                              rtmw3d_angles, virtual_hands)
+from carda_angle_eval import (ANGLES, ROOT, _lift_bal, _lift_one, frame_3d, hands_2d, measure,  # noqa: E402
+                              report, rtmw3d_angles, virtual_hands)
 from ace_pose.ergo_v2 import angles as A  # noqa: E402
 from ace_pose.major_joints import Major25Pose, coco_wholebody_to_major25  # noqa: E402
 from video_pose_eval import OUT as VOUT, match  # noqa: E402
@@ -94,10 +94,10 @@ def ground_truth(seq, i, pid, cache={}):
     return measure(pose, frame_3d(pose, up), up, hands)
 
 
-def lift(step=3):
+def lift(step=3, which="plain"):
     from multiprocessing import Pool
     OUT.mkdir(parents=True, exist_ok=True)
-    out = OUT / "lift.csv"
+    fn, out = (_lift_one, OUT / "lift.csv") if which == "plain" else (_lift_bal, OUT / "liftbal.csv")
     if out.exists():
         sys.exit(f"{out} exists; delete it to re-run")
     keys, jobs = [], []
@@ -106,10 +106,11 @@ def lift(step=3):
             keys.append((seq, i, pid))
             jobs.append((m25.keypoints[:, :2], m25.confidence, *hands_2d(k2, s)))
     with Pool(14) as pool:
-        res = pool.map(_lift_one, jobs, chunksize=4)
+        res = pool.map(fn, jobs, chunksize=4)
     pd.DataFrame([{"clip": s, "frame": i, "actor": p, **r} for (s, i, p), r in zip(keys, res)]).to_csv(
         out, index=False, float_format="%.2f")
-    print(f"{len(keys)} person-frames lifted, {sum(r['rom3d_solutions'] == 0 for r in res)} without a 3D fit")
+    print(f"{len(keys)} person-frames lifted, "
+          f"{sum(next(v for k, v in r.items() if k.endswith('_solutions')) == 0 for r in res)} without a 3D fit")
 
 
 def evaluate():
@@ -122,14 +123,15 @@ def evaluate():
         row.update({f"rtmw3d_{k}": v for k, v in rtmw3d_angles(k3, s).items()})
         rows.append(row)
     df = pd.DataFrame(rows)
-    if (OUT / "lift.csv").exists():
-        df = df.merge(pd.read_csv(OUT / "lift.csv"), on=["clip", "frame", "actor"], how="inner")
+    for f in ("lift.csv", "liftbal.csv"):
+        if (OUT / f).exists():
+            df = df.merge(pd.read_csv(OUT / f), on=["clip", "frame", "actor"], how="inner")
     for k in ANGLES:
         df[f"prior_{k}"] = df["clip"].map({s: df.loc[df["clip"] != s, f"gt_{k}"].mean() for s in df["clip"].unique()})
     if "rom3d_trunk_flexion" in df:      # pre-registered hybrid (strategy-log S2-b): 3D for these, 2D elsewhere
         for k in ANGLES:
             df[f"hybrid_{k}"] = df[f"rom3d_{k}"] if k in HYBRID_3D else df[f"planar_{k}"]
-    methods = ["planar", "rtmw3d", "prior"] + [m for m in ("rom3d", "free3d", "hybrid") if f"{m}_trunk_flexion" in df]
+    methods = ["planar", "rtmw3d", "prior"] + [m for m in ("rom3d", "free3d", "bal3d", "hybrid") if f"{m}_trunk_flexion" in df]
     df.to_csv(OUT / "per_frame.csv", index=False, float_format="%.2f")
     report(df, methods, OUT, group="clip")
 
@@ -138,7 +140,7 @@ if __name__ == "__main__":
     args = [a for a in sys.argv[1:] if not a.startswith("--split")]
     cmd = args[0] if args else ""
     if cmd == "lift":
-        lift(int(args[1]) if len(args) > 1 else 3)
+        lift(int(args[1]) if len(args) > 1 else 3, args[2] if len(args) > 2 else "plain")
     elif cmd == "infer":
         infer()
     elif cmd == "eval":

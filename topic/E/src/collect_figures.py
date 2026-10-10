@@ -19,7 +19,7 @@ MAP = {
     "reliability_diagram.png": "fig6_reliability_diagram.png",     # Fig. 8
     "model_accuracy_comparison.png": "supplementary/S2.png",
     "pose_overlay_comparison.png": "supplementary/S3.png",
-    "model_mega_grid.png": "supplementary/S4.png",
+    "pose_models_grid.png": "supplementary/S4.png",            # fig_pose_models_grid.py (GPU, images)
     "c4_calibration_improvement.png": "supplementary/S5.png",
     "confidence_vs_score.png": "supplementary/S6.png",
     "risk_heatmap_location_x_process.png": "supplementary/S7.png",

@@ -434,6 +434,17 @@ if section("limits_expert", [ROOT / "datasets/public/expert_pilot_22/expert_pilo
     check("04.results.md", f"gives exact agreement with the expert of {o['OWAS']}, {o['RULA']}, and {o['REBA']} of 22",
           "annotated-keypoint pose vs expert")
 
+# --- Supplementary S9: trunk-flexion error against motion capture (3DPW test/validation, CarDA) ---
+S9 = {"3DPW test": ROOT / "topic/E/result/threedpw_angles/summary.json",
+      "3DPW validation": ROOT / "topic/E/result/threedpw_angles/validation/summary.json",
+      "CarDA": ROOT / "topic/E/result/carda_angles/summary.json"}
+if section("supp_s9", list(S9.values())):
+    for name, f in S9.items():
+        mae = json.loads(f.read_text())["all"]["mae"]
+        if "bal3d" in mae:
+            cells = [mae[m]["trunk_flexion"] for m in ("planar", "free3d", "rom3d", "bal3d", "prior")]
+            check("09.supplementary.md", f"| {name} | " + " | ".join(f"{v:.1f}" for v in cells) + " |", f"Table S9.1 {name}")
+
 # --- unit tests -----------------------------------------------------------------------
 section("tests")
 ignore = [f"--ignore=ace_pose/tests/{t}" for t in LEGACY_TESTS if (ROOT / "ace_pose/tests" / t).exists()]

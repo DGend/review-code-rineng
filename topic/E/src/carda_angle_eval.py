@@ -19,6 +19,8 @@ Methods compared:
           range-of-motion limits (ace_pose/lift3d_rom.py); angle = median over the kept
           solutions, uncertainty = their spread
   free3d  the same without range-of-motion limits (ablation)
+  bal3d   rom3d plus the standing-balance prior and camera tilt (lift3d_rom.fit balance=True),
+          added after the pre-registered evaluation (exploratory); run with `lift STEP bal`
   rtmw3d  RTMW3D's own 3D output, depth rescaled per frame to the standard bone proportions
   prior   no image: each angle's mean over the other workers' ground truth (leave one worker out)
 Reported: mean absolute error, agreement of the OWAS/RULA/REBA angle band (BANDS), the rank
@@ -224,13 +226,17 @@ def rtmw3d_angles(k3, sc):
     return measure(pose, frame_3d(pose, up), up, hands)
 
 
-def _lift_one(args):
+PLAIN = (("rom3d", True, False), ("free3d", False, False))
+BALANCED = (("bal3d", True, True),)
+
+
+def _lift_one(args, variants=PLAIN):
     from ace_pose import lift3d_rom as L
     kp, conf, h2, hc = args
     up, out = np.array([0.0, 1.0, 0.0]), {}
-    for name, rom in (("rom3d", True), ("free3d", False)):
+    for name, rom, bal in variants:
         try:
-            fit = L.fit(kp, conf, rom=rom, hands2d=h2, hands_conf=hc)
+            fit = L.fit(kp, conf, rom=rom, hands2d=h2, hands_conf=hc, balance=bal)
         except np.linalg.LinAlgError:              # counted and reported, the frame is left out
             fit = L.FitResult([], [], [], [])
         if not fit.body_joints:
@@ -249,12 +255,18 @@ def _lift_one(args):
     return out
 
 
-def lift(step=3):
-    """Fit the 3D body model on every `step`-th frame where the worker was found."""
+def _lift_bal(args):
+    return _lift_one(args, BALANCED)
+
+
+def lift(step=3, which="plain"):
+    """Fit the 3D body model on every `step`-th frame where the worker was found
+    (which="bal": the balance variant only, written to liftbal_<clip>.csv)."""
     import pandas as pd
     from multiprocessing import Pool
+    fn, prefix = (_lift_one, "lift") if which == "plain" else (_lift_bal, "liftbal")
     for clip in clips(synced_only=True):
-        out = OUT / f"lift_{clip.stem}.csv"
+        out = OUT / f"{prefix}_{clip.stem}.csv"
         if out.exists():
             continue
         z = np.load(OUT / f"poses_{clip.stem}.npz")
@@ -264,9 +276,9 @@ def lift(step=3):
             m25 = coco_wholebody_to_major25(np.c_[z["k2"][i], np.zeros(133)], z["s"][i])
             jobs.append((m25.keypoints[:, :2], m25.confidence, *hands_2d(z["k2"][i], z["s"][i])))
         with Pool(14) as pool:
-            res = pool.map(_lift_one, jobs, chunksize=4)
+            res = pool.map(fn, jobs, chunksize=4)
         pd.DataFrame([{"frame": i, **r} for i, r in zip(frames, res)]).to_csv(out, index=False, float_format="%.2f")
-        failed = sum(r["rom3d_solutions"] == 0 for r in res)
+        failed = sum(next(v for k, v in r.items() if k.endswith("_solutions")) == 0 for r in res)
         print(f"{clip.stem}: {len(frames)} frames lifted, {failed} without a 3D fit", flush=True)
 
 
@@ -296,9 +308,12 @@ def evaluate():
     lifted = [pd.read_csv(f).assign(clip=f.stem[5:]) for f in sorted(OUT.glob("lift_*.csv"))]
     if lifted:                         # the 3D methods are evaluated on the lifted frames only
         df = df.merge(pd.concat(lifted), on=["clip", "frame"], how="inner")
+    balanced = [pd.read_csv(f).assign(clip=f.stem[8:]) for f in sorted(OUT.glob("liftbal_*.csv"))]
+    if balanced:
+        df = df.merge(pd.concat(balanced), on=["clip", "frame"], how="inner")
     for k in ANGLES:                      # leave-one-worker-out mean of the ground truth
         df[f"prior_{k}"] = df.worker.map({w: df.loc[df.worker != w, f"gt_{k}"].mean() for w in df.worker.unique()})
-    methods = ["planar", "rtmw3d", "prior"] + [m for m in ("rom3d", "free3d") if f"{m}_trunk_flexion" in df]
+    methods = ["planar", "rtmw3d", "prior"] + [m for m in ("rom3d", "free3d", "bal3d") if f"{m}_trunk_flexion" in df]
     df.to_csv(OUT / "per_frame.csv", index=False, float_format="%.2f")
     report(df, methods, OUT, subsets=(("first_40s", df.t < 40), ("side_view", df.side_view),
                                       ("not_side_view", ~df.side_view), ("inside_camera", df.view == "in"),
@@ -374,6 +389,6 @@ def report(df, methods, out_dir, subsets=(), group="worker"):
 if __name__ == "__main__":
     cmd = sys.argv[1] if len(sys.argv) > 1 else ""
     if cmd == "lift":
-        lift(int(sys.argv[2]) if len(sys.argv) > 2 else 3)
+        lift(int(sys.argv[2]) if len(sys.argv) > 2 else 3, sys.argv[3] if len(sys.argv) > 3 else "plain")
     else:
         {"infer": infer, "eval": evaluate}.get(cmd, lambda: sys.exit(__doc__))()

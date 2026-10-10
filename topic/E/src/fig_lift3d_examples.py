@@ -1,5 +1,7 @@
 # PWW-DISCLOSURE: public
-"""3D skeletons of cohort workers from the range-of-motion-constrained fit (Supplementary S9).
+"""3D skeletons of cohort workers from the range-of-motion-constrained fit, before and after the
+standing-balance prior (lift3d_rom.fit balance=True: camera tilt estimated against gravity, centre
+of mass over the feet, feet on the floor), for Supplementary S9.
 
 For each example image: the image with the worker's 2D keypoints (face pixelated first), and the
 fitted 3D skeleton drawn in perspective on a floor grid, from an oblique and from a side
@@ -75,29 +77,43 @@ def setup3d(ax, j, elev, azim, title):
     ax.set_title(title, fontsize=9)
 
 
+def fit_and_measure(m25, k2, s, balance):
+    up = np.array([0.0, 1.0, 0.0])
+    fit = L.fit(m25.keypoints[:, :2], m25.confidence, hands2d=hands_2d(k2, s)[0], hands_conf=hands_2d(k2, s)[1],
+                balance=balance)
+    meas = []
+    for j, hd in zip(fit.body_joints, fit.hand_joints):
+        p = Major25Pose(keypoints=j, confidence=np.ones(25), source=np.zeros(25, np.int8))
+        meas.append(measure(p, frame_3d(p, up), up, hd))
+    return fit, meas, int(np.argmin(fit.rms))
+
+
+def balance_text(j, meas, n):
+    off = np.hypot(*(L.centre_of_mass(j) - L.support_centre(j))[[0, 2]])
+    fh = L.foot_floor_heights(j)
+    tf = [d["trunk_flexion"] for d in meas]
+    return (f"centre of mass off the feet: {off:.2f} stature\nfoot height gap: {abs(fh[0] - fh[1]):.2f} stature\n"
+            f"trunk flexion kept: {min(tf):.0f} to {max(tf):.0f} deg ({n} solutions)")
+
+
 def main(stems):
     OUT.mkdir(parents=True, exist_ok=True)
     summ = pd.read_csv(BATCH / "summary.csv").set_index("file_stem")
-    fig = plt.figure(figsize=(11, 3.9 * len(stems)))
-    gs = fig.add_gridspec(len(stems), 3, width_ratios=[1.1, 1.2, 1.2])
-    axes = [[fig.add_subplot(gs[r, 0]), fig.add_subplot(gs[r, 1], projection="3d"),
-             fig.add_subplot(gs[r, 2], projection="3d")] for r in range(len(stems))]
-    up = np.array([0.0, 1.0, 0.0])
+    fig = plt.figure(figsize=(16, 3.9 * len(stems)))
+    gs = fig.add_gridspec(len(stems), 5, width_ratios=[1.1, 1.2, 1.2, 1.2, 1.2])
+    axes = [[fig.add_subplot(gs[r, 0])] + [fig.add_subplot(gs[r, c], projection="3d") for c in range(1, 5)]
+            for r in range(len(stems))]
     for row, stem in zip(axes, stems):
         z = np.load(BATCH / "details" / f"{stem}.npz")
         k2, s = z["kpts2d_133"].astype(float), z["scores_133"].astype(float)
         m25 = coco_wholebody_to_major25(np.c_[k2, np.zeros(133)], s)
-        fit = L.fit(m25.keypoints[:, :2], m25.confidence, hands2d=hands_2d(k2, s)[0], hands_conf=hands_2d(k2, s)[1])
-        best = int(np.argmin(fit.rms))
-        meas = []
-        for j, hd in zip(fit.body_joints, fit.hand_joints):
-            p = Major25Pose(keypoints=j, confidence=np.ones(25), source=np.zeros(25, np.int8))
-            meas.append(measure(p, frame_3d(p, up), up, hd))
+        fits = {b: fit_and_measure(m25, k2, s, b) for b in (False, True)}
         (OUT / f"{stem}.json").write_text(json.dumps({
             "file_stem": stem, "coordinates": "stature = 1, y up, z = pelvis heading, x = subject's left",
-            "joint_order": "major-25 (ace_pose/major_joints.py)", "best": best,
-            "solutions": [{"rms": r, "joints": j.round(4).tolist(), "hand_knuckles": h.round(4).tolist(), "angles": a}
-                          for r, j, h, a in zip(fit.rms, fit.body_joints, fit.hand_joints, meas)]}, indent=1))
+            "joint_order": "major-25 (ace_pose/major_joints.py)",
+            **{key: {"best": best, "solutions": [{"rms": r, "joints": j.round(4).tolist(), "hand_knuckles": h.round(4).tolist(),
+                                                  "angles": a} for r, j, h, a in zip(f.rms, f.body_joints, f.hand_joints, meas)]}
+               for key, (f, meas, best) in (("before_balance", fits[False]), ("after_balance", fits[True]))}}, indent=1))
         # image with 2D keypoints, face pixelated before anything is drawn
         img = mosaic_face(cv2.imread(str(IMG_DIR / f"{stem}.jpg")), k2, s)
         kp = m25.keypoints[:, :2]
@@ -106,8 +122,7 @@ def main(stems):
         x1, y1 = kp[ok].max(0) + 60
         h, w = img.shape[:2]
         x0, y0, x1, y1 = int(max(0, x0)), int(max(0, y0)), int(min(w, x1)), int(min(h, y1))
-        crop = cv2.cvtColor(img[y0:y1, x0:x1], cv2.COLOR_BGR2RGB)
-        row[0].imshow(crop)
+        row[0].imshow(cv2.cvtColor(img[y0:y1, x0:x1], cv2.COLOR_BGR2RGB))
         k = kp - [x0, y0]
         for a, b in EDGES:
             if ok[a] and ok[b]:
@@ -115,19 +130,19 @@ def main(stems):
         row[0].axis("off")
         f = summ.at[stem, "factory_id"] if "factory_id" in summ.columns else ""
         row[0].set_title(f"{DOMAIN.get(f'F{int(f)}', '')} image, 2D keypoints", fontsize=9)
-        jb = fit.body_joints[best]
-        for ax, elev, azim, name in ((row[1], 18, -60, "3D, oblique view"), (row[2], 8, 0, "3D, side view")):
-            setup3d(ax, jb, elev, azim, name)
-            for i, j in enumerate(fit.body_joints):
-                if i != best:
-                    draw3d(ax, j, "0.6", 1.2, 0.35)
-            draw3d(ax, jb, "auto", 2.6, 1.0, joints=True)
-        mb = meas[best]
-        tf = [d["trunk_flexion"] for d in meas]
-        row[2].text2D(0.02, 0.0, f"trunk flexion {mb['trunk_flexion']:.0f} deg (kept: {min(tf):.0f} to {max(tf):.0f})\n"
-                    f"upper-arm abduction R {mb['upper_arm_abduction_r']:.0f}, L {mb['upper_arm_abduction_l']:.0f} deg\n"
-                    f"{len(fit.body_joints)} solution(s) kept", transform=row[2].transAxes, fontsize=7, va="bottom")
-        print(f"{stem}: {len(fit.body_joints)} solutions, trunk flexion {mb['trunk_flexion']:.0f} ({min(tf):.0f}-{max(tf):.0f})")
+        for c0, bal, label in ((1, False, "before balance"), (3, True, "after balance")):
+            fit, meas, best = fits[bal]
+            jb = fit.body_joints[best]
+            for ax, elev, azim, name in ((row[c0], 18, -60, "oblique"), (row[c0 + 1], 8, 0, "side")):
+                setup3d(ax, jb, elev, azim, f"3D {label}, {name}")
+                for i, j in enumerate(fit.body_joints):
+                    if i != best:
+                        draw3d(ax, j, "0.6", 1.2, 0.35)
+                draw3d(ax, jb, "auto", 2.6, 1.0, joints=True)
+            row[c0 + 1].text2D(0.0, -0.02, balance_text(jb, meas, len(fit.body_joints)),
+                               transform=row[c0 + 1].transAxes, fontsize=7, va="top")
+        print(f"{stem}: before {balance_text(fits[False][0].body_joints[fits[False][2]], fits[False][1], 0).splitlines()[0]}"
+              f" | after {balance_text(fits[True][0].body_joints[fits[True][2]], fits[True][1], 0).splitlines()[0]}")
     FIG.parent.mkdir(parents=True, exist_ok=True)
     fig.tight_layout()
     fig.savefig(FIG, dpi=200)

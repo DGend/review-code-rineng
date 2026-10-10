@@ -147,6 +147,37 @@ def camera_rotation(p: np.ndarray) -> np.ndarray:
     return _ry(p[PARAM_INDEX["root_yaw"]])
 
 
+def tilt_rotation(pitch: float, roll: float) -> np.ndarray:
+    """Camera tilt relative to gravity (applied after the heading)."""
+    return _rx(pitch) @ _rz(roll)
+
+
+# Segment mass fractions of body mass and centre-of-mass position from the proximal joint
+# (Dempster, as tabulated by Winter): trunk with pelvis, head and neck, upper arm, forearm with hand,
+# thigh, shank, foot.
+MASS = [(PELVIS, NECK, 0.497, 0.5), (NECK, NOSE, 0.081, 0.5),
+        (SHOULDER_R, ELBOW_R, 0.028, 0.436), (SHOULDER_L, ELBOW_L, 0.028, 0.436),
+        (ELBOW_R, WRIST_R, 0.022, 0.682), (ELBOW_L, WRIST_L, 0.022, 0.682),
+        (HIP_R, KNEE_R, 0.100, 0.433), (HIP_L, KNEE_L, 0.100, 0.433),
+        (KNEE_R, ANKLE_R, 0.0465, 0.433), (KNEE_L, ANKLE_L, 0.0465, 0.433),
+        (HEEL_R, BIG_TOE_R, 0.0145, 0.5), (HEEL_L, BIG_TOE_L, 0.0145, 0.5)]
+FEET = ((ANKLE_R, BIG_TOE_R, HEEL_R), (ANKLE_L, BIG_TOE_L, HEEL_L))
+
+
+def centre_of_mass(j: np.ndarray) -> np.ndarray:
+    m = sum(w for *_, w, _ in MASS)
+    return sum(w * (j[a] + f * (j[b] - j[a])) for a, b, w, f in MASS) / m
+
+
+def support_centre(j: np.ndarray) -> np.ndarray:
+    return j[[i for foot in FEET for i in foot]].mean(axis=0)
+
+
+def foot_floor_heights(j: np.ndarray) -> np.ndarray:
+    """Height (y) of the lowest point of the right and the left foot."""
+    return np.array([j[list(foot), 1].min() for foot in FEET])
+
+
 def project(j: np.ndarray, R: np.ndarray, scale: float = 1.0, t=(0.0, 0.0)) -> np.ndarray:
     """Weak perspective onto the image (x right, y down)."""
     w = j @ R.T
@@ -163,7 +194,8 @@ class FitResult:
 
 def fit(kp2d: np.ndarray, conf: np.ndarray, min_conf: float = 0.3, tol: float = 0.03,
         reg: float = 0.01, headings=range(0, 360, 45), rom: bool = True,
-        hands2d: np.ndarray | None = None, hands_conf: np.ndarray | None = None) -> FitResult:
+        hands2d: np.ndarray | None = None, hands_conf: np.ndarray | None = None,
+        balance: bool = False, w_balance: float = 2.0, w_floor: float = 1.0) -> FitResult:
     """Fit the body model to (25, 2) keypoints; keep every start whose error is within `tol`
     (fraction of the 2D torso length) of the best. rom=False opens every joint to +-180 degrees
     (the ablation without range-of-motion limits; segment lengths still fixed). hands2d (6, 2):
@@ -186,19 +218,28 @@ def fit(kp2d: np.ndarray, conf: np.ndarray, min_conf: float = 0.3, tol: float = 
     scale0 = torso / SEGMENTS["trunk"]
     lo_all = np.r_[lo, 0.2 * scale0, -np.inf, -np.inf]
     hi_all = np.r_[hi, 5.0 * scale0, np.inf, np.inf]
+    if balance:                          # camera pitch and roll relative to gravity
+        lo_all, hi_all = np.r_[lo_all, -30.0, -20.0], np.r_[hi_all, 30.0, 20.0]
+    n2d = 2 * (len(kp2d) + len(hands2d))
 
     def resid(q):
         j, hd = _chain(q)
-        uv = project(np.r_[j, hd.reshape(6, 3)], camera_rotation(q), q[N_POSE], q[N_POSE + 1:])
+        R = camera_rotation(q) if not balance else tilt_rotation(q[N_POSE + 3], q[N_POSE + 4]) @ camera_rotation(q)
+        uv = project(np.r_[j, hd.reshape(6, 3)], R, q[N_POSE], q[N_POSE + 1:N_POSE + 3])
         r = ((uv - np.r_[kp2d, hands2d]) * np.r_[w, wh][:, None]).ravel() / torso
-        return np.r_[r, reg * (q[:N_POSE] - neutral) / span * np.sqrt(len(r))]
+        if balance:
+            d = (centre_of_mass(j) - support_centre(j))[[0, 2]]
+            fh = foot_floor_heights(j)
+            r = np.r_[r, w_balance * d / SEGMENTS["trunk"], w_floor * (fh[0] - fh[1]) / SEGMENTS["trunk"]]
+        return np.r_[r, reg * (q[:N_POSE] - neutral) / span * np.sqrt(n2d)]
 
     sols = []
     for h in headings:
-        q0 = np.r_[neutral, scale0, kp2d[PELVIS]]
+        q0 = np.r_[neutral, scale0, kp2d[PELVIS]] if not balance else np.r_[neutral, scale0, kp2d[PELVIS], 0.0, 0.0]
         q0[PARAM_INDEX["root_yaw"]] = h
-        r = least_squares(resid, q0, bounds=(lo_all, hi_all), x_scale=np.r_[span, scale0, torso, torso])
-        e = resid(r.x)[:-N_POSE]
+        xs = np.r_[span, scale0, torso, torso] if not balance else np.r_[span, scale0, torso, torso, 60.0, 40.0]
+        r = least_squares(resid, q0, bounds=(lo_all, hi_all), x_scale=xs)
+        e = resid(r.x)[:n2d]
         sols.append((float(np.sqrt(np.sum(e ** 2) / max(np.sum(w > 0) + np.sum(wh > 0), 1))), r.x))
     best = min(s for s, _ in sols)
     keep = [(s, q) for s, q in sols if s <= best + tol]

@@ -64,6 +64,14 @@ side (model geometry, assumption; hand length 0.108 of stature after Winter). Gr
 angles are taken with the same geometry from the motion-capture wrist rotation, so the
 geometry assumption does not bias the comparison.
 
+## Standing-balance prior (optional, `fit(balance=True)`)
+
+Added 2026-10-10 after reconstructions whose centre of mass lay up to 0.31 of stature off the feet.
+The camera's pitch (+-30 degrees) and roll (+-20 degrees) relative to gravity are estimated, and two
+soft penalties keep the whole-body centre of mass (segment masses and centre-of-mass positions after
+Dempster, as tabulated by Winter) above the centre of the feet and both feet at floor level. It is a
+prior for standing work: a held load or walking legitimately moves the centre of mass off the feet.
+
 ## Open
 
 The four assumption rows (shoulder extension and cross-body adduction, hip extension, hip

@@ -1253,11 +1253,32 @@
   "value": "annotated-keypoint pose vs expert"
  },
  {
+  "section": "supp_s9",
+  "i": 1,
+  "where": "09.supplementary.md",
+  "needle": "| 3DPW test | 9.0 | 7.9 | 6.3 | 10.2 | 13.1 |",
+  "value": "Table S9.1 3DPW test"
+ },
+ {
+  "section": "supp_s9",
+  "i": 2,
+  "where": "09.supplementary.md",
+  "needle": "| 3DPW validation | 10.7 | 10.4 | 9.2 | 12.2 | 20.9 |",
+  "value": "Table S9.1 3DPW validation"
+ },
+ {
+  "section": "supp_s9",
+  "i": 3,
+  "where": "09.supplementary.md",
+  "needle": "| CarDA | 18.1 | 16.5 | 17.0 | 22.5 | 14.3 |",
+  "value": "Table S9.1 CarDA"
+ },
+ {
   "section": "tests",
   "i": 1,
   "where": "03.methods.md",
-  "needle": "ships 137 unit tests",
-  "value": "137 passed, 1 warning in 8.79s"
+  "needle": "ships 140 unit tests",
+  "value": "140 passed, 1 warning in 17.06s"
  },
  {
   "section": "runtime",

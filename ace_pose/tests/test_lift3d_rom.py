@@ -109,3 +109,38 @@ def test_ankle_dorsiflexion_lifts_the_toes_and_neutral_toes_are_on_the_floor():
     assert j_up[BIG_TOE_R, 1] > j0[BIG_TOE_R, 1]               # +ankle = dorsiflexion (VA Plate II)
     assert np.isclose(j0[BIG_TOE_R, 1], j0[HEEL_R, 1])          # standing: toe and heel at sole level
     assert j0[BIG_TOE_R, 1] < j0[ANKLE_R, 1]
+
+
+# --- static balance: centre of mass over the feet, feet on the floor, camera tilt estimated ---
+
+def _com_offset_and_foot_gap(j):
+    com = L.centre_of_mass(j)
+    sup = L.support_centre(j)
+    feet = L.foot_floor_heights(j)
+    return float(np.hypot(*(com[[0, 2]] - sup[[0, 2]]))), float(abs(feet[0] - feet[1]))
+
+
+def test_standing_pose_is_balanced():
+    off, gap = _com_offset_and_foot_gap(L.forward(L.neutral_params()))
+    assert off < 0.03 and gap < 1e-9
+
+
+def test_balance_fit_recovers_upright_body_under_a_tilted_camera():
+    # an upright worker photographed by a camera rolled 15 degrees: the plain fit takes the image
+    # vertical as gravity and leans the body; the balance fit estimates the tilt instead
+    true = _params(root_yaw=90.0)
+    R = L.tilt_rotation(0.0, 15.0) @ L.camera_rotation(true)
+    kp2d, h2d = L.project(L.forward(true), R), L.project(L.forward_hands(true).reshape(6, 3), R)
+    plain = L.fit(kp2d, np.ones(25), hands2d=h2d, hands_conf=np.ones(6))
+    bal = L.fit(kp2d, np.ones(25), hands2d=h2d, hands_conf=np.ones(6), balance=True)
+    off_plain = _com_offset_and_foot_gap(plain.body_joints[int(np.argmin(plain.rms))])[0]
+    off_bal, gap_bal = _com_offset_and_foot_gap(bal.body_joints[int(np.argmin(bal.rms))])
+    assert off_bal < 0.04 and gap_bal < 0.03
+    assert off_bal < off_plain
+
+
+def test_balance_option_leaves_the_plain_fit_unchanged():
+    true = _params(root_yaw=60.0, trunk_flex=30.0)
+    kp2d = L.project(L.forward(true), L.camera_rotation(true))
+    a, b = L.fit(kp2d, np.ones(25)), L.fit(kp2d, np.ones(25), balance=False)
+    assert np.allclose(a.params[0], b.params[0])
