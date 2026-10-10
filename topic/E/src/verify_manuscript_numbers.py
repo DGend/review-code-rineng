@@ -244,7 +244,7 @@ if lo_p > 0:
     check("06.conclusion.md", f"roughly {round(hi_p / lo_p)}-fold spread", f"{hi_p / lo_p:.1f}x")
     check("04.results.md", f"a roughly {round(hi_p / lo_p)}-fold increase", f"{hi_p / lo_p:.1f}x")
 else:
-    check("06.conclusion.md", f"from none of the poses to {hi_p:.1f}%", "25 M exceeds in no pose")
+    check("06.conclusion.md", f"moves from none to {hi_p:.1f}%", "25 M exceeds in no pose")
 arm = {a: [float(x) for x in re.search(rf"moment arm {a} m: AL-exceed ([\d.]+)%  MPL-exceed ([\d.]+)%",
                                          run("fig_moment_arm_sensitivity")).groups()] for a in ("0.04", "0.05", "0.06")}
 check("04.results.md", f"from {arm['0.05'][0]:.1f}% to {arm['0.04'][0]:.1f}% (at 0.04 m) or {arm['0.06'][0]:.1f}% (at 0.06 m)", "moment arm AL")

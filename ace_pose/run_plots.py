@@ -29,6 +29,7 @@ import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+import json
 import numpy as np
 import pandas as pd
 
@@ -172,10 +173,13 @@ def plot_top_processes(df: pd.DataFrame, out_path: Path,
 
 
 def plot_reliability_diagram(df: pd.DataFrame, npz_data, out_path: Path,
-                             n_bins: int = 10):
+                             n_bins: int = 10, temps: dict | None = None):
     """Per-method reliability diagram: x = top-class confidence, y =
     empirical accuracy at that confidence level (using deterministic
-    score as the "label"). One subplot per method, lines per domain."""
+    score as the "label"). One subplot per method, lines per domain:
+    solid = raw MC (T = 1); dashed = after the per-domain temperature
+    in `temps` ({"domain/method": T}), when given."""
+    from ace_pose.confidence_mc import apply_temperature
     method_info = {
         "owas": ("owas_probs", "owas_action", (1, 4)),
         "rula": ("rula_probs", "rula_grand", (1, 7)),
@@ -188,42 +192,48 @@ def plot_reliability_diagram(df: pd.DataFrame, npz_data, out_path: Path,
     bin_edges = np.linspace(0, 1, n_bins + 1)
     for ax, (method, (key, label_col, rng)) in zip(axes, method_info.items()):
         probs_full = npz_data[key]
-        for dom in domains:
-            sub = df.loc[df["domain"] == dom]
-            confs = []
-            corrects = []
-            for _, row in sub.iterrows():
-                i = stem_idx.get(row["file_stem"])
-                if i is None: continue
-                p = probs_full[i]
-                if p.sum() < 1e-6: continue
-                p = p / p.sum()
-                top_idx = int(np.argmax(p))
-                top_cls = rng[0] + top_idx
-                confs.append(float(p[top_idx]))
-                corrects.append(1.0 if top_cls == int(row[label_col]) else 0.0)
-            confs = np.array(confs)
-            corrects = np.array(corrects)
-            if confs.size == 0:
-                continue
-            mid = []
-            acc = []
-            for lo, hi in zip(bin_edges[:-1], bin_edges[1:]):
-                m = (confs > lo) & (confs <= hi if hi < 1.0 else confs <= hi + 1e-9)
-                if m.sum() < 5:
+        for di, dom in enumerate(domains):
+            T_cal = (temps or {}).get(f"{dom}/{method}")
+            for T in [1.0] + ([T_cal] if T_cal else []):
+                sub = df.loc[df["domain"] == dom]
+                confs = []
+                corrects = []
+                for _, row in sub.iterrows():
+                    i = stem_idx.get(row["file_stem"])
+                    if i is None: continue
+                    p = probs_full[i]
+                    if p.sum() < 1e-6: continue
+                    p = p / p.sum()
+                    if T != 1.0:
+                        p = apply_temperature(p, T)
+                    top_idx = int(np.argmax(p))
+                    top_cls = rng[0] + top_idx
+                    confs.append(float(p[top_idx]))
+                    corrects.append(1.0 if top_cls == int(row[label_col]) else 0.0)
+                confs = np.array(confs)
+                corrects = np.array(corrects)
+                if confs.size == 0:
                     continue
-                mid.append((lo + hi) / 2)
-                acc.append(corrects[m].mean())
-            ax.plot(mid, acc, marker="o", label=f"{dom} (n={len(confs)})")
+                mid = []
+                acc = []
+                for lo, hi in zip(bin_edges[:-1], bin_edges[1:]):
+                    m = (confs > lo) & (confs <= hi if hi < 1.0 else confs <= hi + 1e-9)
+                    if m.sum() < 5:
+                        continue
+                    mid.append((lo + hi) / 2)
+                    acc.append(corrects[m].mean())
+                raw = T == 1.0
+                ax.plot(mid, acc, marker="o" if raw else "s", ls="-" if raw else "--", color=f"C{di}",
+                        label=f"{dom} (n={len(confs)}), " + ("raw MC" if raw else f"T = {T:g}"))
         ax.plot([0, 1], [0, 1], "--", color="gray", label="perfect")
         ax.set_xlabel("Top-class confidence")
         ax.set_ylabel("Empirical accuracy")
         ax.set_title(f"Reliability: {method.upper()}")
         ax.set_xlim(0, 1)
         ax.set_ylim(0, 1)
-        ax.legend(fontsize=8)
-    fig.suptitle("Reliability diagrams (MC top-class confidence vs deterministic label)")
-    fig.tight_layout()
+    fig.suptitle("Reliability diagrams (MC top-class confidence vs deterministic label); solid: raw MC, dashed: after per-domain temperature")
+    fig.legend(*axes[0].get_legend_handles_labels(), loc="lower center", ncol=4, fontsize=8, frameon=False)
+    fig.tight_layout(rect=(0, 0.12 if temps else 0.08, 1, 1))
     _save_fig(fig, out_path)
     plt.close(fig)
 
@@ -308,7 +318,9 @@ def main():
     mc_npz_path = batch_dir / "mc_distributions.npz"
     if mc_npz_path.exists():
         npz_data = np.load(mc_npz_path, allow_pickle=True)
-        plot_reliability_diagram(df, npz_data, fig_dir / "reliability_diagram.png")
+        tp = batch_dir / "c4_temperatures.json"
+        temps = json.loads(tp.read_text()) if tp.exists() else None
+        plot_reliability_diagram(df, npz_data, fig_dir / "reliability_diagram.png", temps=temps)
         plot_confidence_vs_score(df, fig_dir / "confidence_vs_score.png")
     plot_calibration_improvement(
         batch_dir / "c4_calibration_report.csv",

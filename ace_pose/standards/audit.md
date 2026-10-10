@@ -1,3 +1,9 @@
+> **Superseded working notes (kept for the record).** This file is an early audit draft. Its cell
+> counts and its attribution of the differences to the legacy code are out of date. The final
+> cell-by-cell comparison (manuscript Section 4.2, Table 1) found 4 differing OWAS cells (not
+> independently re-verified) and 31 differing RULA Table A cells, all 31 being errors in our own
+> transcription, now corrected and pinned by a unit test; RULA Table B/C and REBA tables agree.
+
 # Audit: Existing Certified Ergo Code vs Documented Standards
 
 Cross-checked the EWHSE certified ergo modules (`ergo/owas.py`, `ergo/rula.py`,
