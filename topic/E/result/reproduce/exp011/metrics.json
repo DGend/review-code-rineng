@@ -1,0 +1,173 @@
+{
+  "manufacturing/owas": {
+    "point": {
+      "n": 800,
+      "brier_before": 0.01613128662109375,
+      "brier_after": 0.007441858309863699,
+      "ece_before": 0.02482421874999997,
+      "ece_after": 0.011206653118133581
+    },
+    "n_val_workers": 35,
+    "naive_bootstrap_ece_after_ci95": [
+      0.00820231192103737,
+      0.015431198324101546
+    ],
+    "worker_clustered_bootstrap_ece_after_ci95": [
+      0.00623771046570365,
+      0.019497322010993984
+    ],
+    "ci_width_inflation_clustered_over_naive": 1.834253688046593
+  },
+  "manufacturing/rula": {
+    "point": {
+      "n": 800,
+      "brier_before": 0.08855697631835938,
+      "brier_after": 0.05188264890874034,
+      "ece_before": 0.11783203125,
+      "ece_after": 0.04816050764173267
+    },
+    "n_val_workers": 35,
+    "naive_bootstrap_ece_after_ci95": [
+      0.03806379552788171,
+      0.05851247934069565
+    ],
+    "worker_clustered_bootstrap_ece_after_ci95": [
+      0.03577908348376782,
+      0.05814999721622919
+    ],
+    "ci_width_inflation_clustered_over_naive": 1.0940026232124964
+  },
+  "manufacturing/reba": {
+    "point": {
+      "n": 800,
+      "brier_before": 0.09167831420898437,
+      "brier_after": 0.056084972431442184,
+      "ece_before": 0.11325195312500003,
+      "ece_after": 0.0493267674744129
+    },
+    "n_val_workers": 35,
+    "naive_bootstrap_ece_after_ci95": [
+      0.04110226136686388,
+      0.06095215996035674
+    ],
+    "worker_clustered_bootstrap_ece_after_ci95": [
+      0.04322347467414533,
+      0.062005395140734665
+    ],
+    "ci_width_inflation_clustered_over_naive": 0.9461973006122247
+  },
+  "eldercare/owas": {
+    "point": {
+      "n": 201,
+      "brier_before": 0.020737377565298507,
+      "brier_after": 0.013980065199139864,
+      "ece_before": 0.02199937810945276,
+      "ece_after": 0.011098007954175163
+    },
+    "n_val_workers": 4,
+    "naive_bootstrap_ece_after_ci95": [
+      0.006062415612793947,
+      0.02457719679462359
+    ],
+    "worker_clustered_bootstrap_ece_after_ci95": [
+      0.003545992374420202,
+      0.031022339301594263
+    ],
+    "ci_width_inflation_clustered_over_naive": 1.4840222337674331
+  },
+  "eldercare/rula": {
+    "point": {
+      "n": 201,
+      "brier_before": 0.08951337064676616,
+      "brier_after": 0.047222332705109414,
+      "ece_before": 0.1339396766169154,
+      "ece_after": 0.05928609234776662
+    },
+    "n_val_workers": 4,
+    "naive_bootstrap_ece_after_ci95": [
+      0.04299734802247332,
+      0.07794290058106737
+    ],
+    "worker_clustered_bootstrap_ece_after_ci95": [
+      0.022713516219969716,
+      0.09646889601630725
+    ],
+    "ci_width_inflation_clustered_over_naive": 2.1105798705763803
+  },
+  "eldercare/reba": {
+    "point": {
+      "n": 201,
+      "brier_before": 0.11025621404695274,
+      "brier_after": 0.06775508306765443,
+      "ece_before": 0.1433457711442786,
+      "ece_after": 0.05721318603155036
+    },
+    "n_val_workers": 4,
+    "naive_bootstrap_ece_after_ci95": [
+      0.04737723820577743,
+      0.0846703135440219
+    ],
+    "worker_clustered_bootstrap_ece_after_ci95": [
+      0.054470282088043866,
+      0.08913660839379554
+    ],
+    "ci_width_inflation_clustered_over_naive": 0.9295646977711429
+  },
+  "logistics/owas": {
+    "point": {
+      "n": 200,
+      "brier_before": 0.00919677734375,
+      "brier_after": 0.005084816311074678,
+      "ece_before": 0.017578125000000014,
+      "ece_after": 0.008138832151889803
+    },
+    "n_val_workers": 5,
+    "naive_bootstrap_ece_after_ci95": [
+      0.0025989981027750696,
+      0.015692745734897234
+    ],
+    "worker_clustered_bootstrap_ece_after_ci95": [
+      0.0017561428498902298,
+      0.013926110665003447
+    ],
+    "ci_width_inflation_clustered_over_naive": 0.9294487840331754
+  },
+  "logistics/rula": {
+    "point": {
+      "n": 200,
+      "brier_before": 0.0891961669921875,
+      "brier_after": 0.05431230749387685,
+      "ece_before": 0.121171875,
+      "ece_after": 0.04539649263024329
+    },
+    "n_val_workers": 5,
+    "naive_bootstrap_ece_after_ci95": [
+      0.035002107721171606,
+      0.07117710293093481
+    ],
+    "worker_clustered_bootstrap_ece_after_ci95": [
+      0.03439853652420209,
+      0.08280245820928062
+    ],
+    "ci_width_inflation_clustered_over_naive": 1.338049152581916
+  },
+  "logistics/reba": {
+    "point": {
+      "n": 200,
+      "brier_before": 0.11357666015625,
+      "brier_after": 0.06462730752333885,
+      "ece_before": 0.14898437499999997,
+      "ece_after": 0.07520269468426705
+    },
+    "n_val_workers": 5,
+    "naive_bootstrap_ece_after_ci95": [
+      0.05997814313290835,
+      0.10011620575693052
+    ],
+    "worker_clustered_bootstrap_ece_after_ci95": [
+      0.0660929094203076,
+      0.10748823285102849
+    ],
+    "ci_width_inflation_clustered_over_naive": 1.0313234053789697
+  }
+}

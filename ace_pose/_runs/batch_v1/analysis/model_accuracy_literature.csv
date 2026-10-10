@@ -1,0 +1,5 @@
+Model,Reference,Benchmark,Metric,Value,Notes
+SMPL-X body-22,"Pavlakos et al., CVPR 2019",EHF — Expressive Hands and Faces,Body MPJPE,≈ 49 mm,SMPLify-X iterative fit; ~ minutes per image.
+BioPose-24,"Cha et al., arXiv 2501.07800 (2025)",3DPW + biomechanical refinement (OpenSim),Joint-angle MAE (refined),≈ 3–5 °,Two-stage: monocular + OpenSim; non-real-time.
+HiPART (17 → 48),"Zheng et al., CVPR 2025",Human3.6M (P1),MPJPE,≈ 37 mm,Hierarchical sparse-to-dense decoder; real-time.
+VEHS-6.7M (66 kpts),"Wei et al., Ergonomics 2026",VEHS studio dataset,Joint-angle MAE,≈ 5–7 °,WMSD-specific 66-landmark layout; studio capture.

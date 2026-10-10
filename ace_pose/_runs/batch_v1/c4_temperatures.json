@@ -1,0 +1,11 @@
+{
+  "manufacturing/owas": 0.5,
+  "manufacturing/rula": 0.5,
+  "manufacturing/reba": 0.5,
+  "eldercare/owas": 0.5,
+  "eldercare/rula": 0.5,
+  "eldercare/reba": 0.5,
+  "logistics/owas": 0.5,
+  "logistics/rula": 0.5,
+  "logistics/reba": 0.5
+}

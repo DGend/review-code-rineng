@@ -1,0 +1,1283 @@
+[
+ {
+  "section": "cohort",
+  "i": 1,
+  "where": "09.supplementary.md",
+  "needle": "**6,007**",
+  "value": "6,007"
+ },
+ {
+  "section": "cohort",
+  "i": 2,
+  "where": "09.supplementary.md",
+  "needle": "| 1,819 |",
+  "value": "F1 1,819"
+ },
+ {
+  "section": "cohort",
+  "i": 3,
+  "where": "09.supplementary.md",
+  "needle": "| 738 |",
+  "value": "F2 738"
+ },
+ {
+  "section": "cohort",
+  "i": 4,
+  "where": "09.supplementary.md",
+  "needle": "| 938 |",
+  "value": "F3 938"
+ },
+ {
+  "section": "cohort",
+  "i": 5,
+  "where": "09.supplementary.md",
+  "needle": "| 199 |",
+  "value": "F4 199"
+ },
+ {
+  "section": "cohort",
+  "i": 6,
+  "where": "09.supplementary.md",
+  "needle": "| 307 |",
+  "value": "F5 307"
+ },
+ {
+  "section": "cohort",
+  "i": 7,
+  "where": "09.supplementary.md",
+  "needle": "| 1,006 |",
+  "value": "F6 1,006"
+ },
+ {
+  "section": "cohort",
+  "i": 8,
+  "where": "09.supplementary.md",
+  "needle": "| 1,000 |",
+  "value": "F7 1,000"
+ },
+ {
+  "section": "cohort",
+  "i": 9,
+  "where": "09.supplementary.md",
+  "needle": "Sasang-1 (n = 1,947",
+  "value": "1,947"
+ },
+ {
+  "section": "cohort",
+  "i": 10,
+  "where": "09.supplementary.md",
+  "needle": "Weld-1 (n = 619",
+  "value": "619"
+ },
+ {
+  "section": "cohort",
+  "i": 11,
+  "where": "09.supplementary.md",
+  "needle": "Images were collected for 16",
+  "value": "16"
+ },
+ {
+  "section": "standards",
+  "i": 1,
+  "where": "03.methods.md",
+  "needle": "Of 764 cells",
+  "value": "cells audited"
+ },
+ {
+  "section": "standards",
+  "i": 2,
+  "where": "03.methods.md",
+  "needle": "4 of 252 OWAS Action-Category cells",
+  "value": "OWAS cells differing"
+ },
+ {
+  "section": "standards",
+  "i": 3,
+  "where": "04.results.md",
+  "needle": "None (no cohort pose falls in these cells)",
+  "value": "0 cohort poses in the differing OWAS cells"
+ },
+ {
+  "section": "domains",
+  "i": 1,
+  "where": "letter",
+  "needle": "RULA H = 95.9",
+  "value": "H=95.9 eps2=0.0160"
+ },
+ {
+  "section": "domains",
+  "i": 2,
+  "where": "letter",
+  "needle": "0.0160",
+  "value": "eps2 rula_grand"
+ },
+ {
+  "section": "domains",
+  "i": 3,
+  "where": "letter",
+  "needle": "REBA H = 30.4",
+  "value": "H=30.4 eps2=0.0051"
+ },
+ {
+  "section": "domains",
+  "i": 4,
+  "where": "letter",
+  "needle": "0.0051",
+  "value": "eps2 reba_grand"
+ },
+ {
+  "section": "domains",
+  "i": 5,
+  "where": "letter",
+  "needle": "mean REBA: eldercare 2.65, logistics 2.92, manufacturing 3.02",
+  "value": "2.65/2.92/3.02"
+ },
+ {
+  "section": "domains",
+  "i": 6,
+  "where": "04.results.md",
+  "needle": "mean REBA: eldercare 2.65, logistics 2.92, manufacturing 3.02",
+  "value": "2.65/2.92/3.02"
+ },
+ {
+  "section": "domains",
+  "i": 7,
+  "where": "letter",
+  "needle": "[-0.520, -0.000]",
+  "value": "[-0.520, -0.000]"
+ },
+ {
+  "section": "domains",
+  "i": 8,
+  "where": "04.results.md",
+  "needle": "[-0.520, -0.000]",
+  "value": "TOST clustered CI"
+ },
+ {
+  "section": "domains",
+  "i": 9,
+  "where": "04.results.md",
+  "needle": "is -0.295 RULA",
+  "value": "TOST mean difference"
+ },
+ {
+  "section": "domains",
+  "i": 10,
+  "where": "04.results.md",
+  "needle": "(43 manufacturing-rollup workers, 4 eldercare caregivers)",
+  "value": "clusters"
+ },
+ {
+  "section": "domains",
+  "i": 11,
+  "where": "04.results.md",
+  "needle": "widens 3.83-fold",
+  "value": "CI widening"
+ },
+ {
+  "section": "ranking",
+  "i": 1,
+  "where": "04.results.md",
+  "needle": "3.89)",
+  "value": "top-8 process mean REBA 3.89"
+ },
+ {
+  "section": "ranking",
+  "i": 2,
+  "where": "04.results.md",
+  "needle": "3.27)",
+  "value": "top-8 process mean REBA 3.27"
+ },
+ {
+  "section": "ranking",
+  "i": 3,
+  "where": "04.results.md",
+  "needle": "2.97)",
+  "value": "top-8 process mean REBA 2.97"
+ },
+ {
+  "section": "ranking",
+  "i": 4,
+  "where": "04.results.md",
+  "needle": "2.97)",
+  "value": "top-8 process mean REBA 2.97"
+ },
+ {
+  "section": "ranking",
+  "i": 5,
+  "where": "04.results.md",
+  "needle": "2.95)",
+  "value": "top-8 process mean REBA 2.95"
+ },
+ {
+  "section": "ranking",
+  "i": 6,
+  "where": "04.results.md",
+  "needle": "2.92)",
+  "value": "top-8 process mean REBA 2.92"
+ },
+ {
+  "section": "ranking",
+  "i": 7,
+  "where": "04.results.md",
+  "needle": "2.83)",
+  "value": "top-8 process mean REBA 2.83"
+ },
+ {
+  "section": "ranking",
+  "i": 8,
+  "where": "04.results.md",
+  "needle": "2.73)",
+  "value": "top-8 process mean REBA 2.73"
+ },
+ {
+  "section": "calibration",
+  "i": 1,
+  "where": "04.results.md",
+  "needle": "by 59% on average (0.124",
+  "value": "rula 0.124->0.051"
+ },
+ {
+  "section": "calibration",
+  "i": 2,
+  "where": "04.results.md",
+  "needle": "(0.124 to 0.051)",
+  "value": "0.124 to 0.051"
+ },
+ {
+  "section": "calibration",
+  "i": 3,
+  "where": "04.results.md",
+  "needle": "by 55% (0.135",
+  "value": "reba 0.135->0.061"
+ },
+ {
+  "section": "calibration",
+  "i": 4,
+  "where": "04.results.md",
+  "needle": "(0.135 to 0.061)",
+  "value": "0.135 to 0.061"
+ },
+ {
+  "section": "calibration",
+  "i": 5,
+  "where": "04.results.md",
+  "needle": "| Eldercare | OWAS | 0.5 | 0.022 | 0.011 |",
+  "value": "Table 2 row"
+ },
+ {
+  "section": "calibration",
+  "i": 6,
+  "where": "04.results.md",
+  "needle": "| Eldercare | REBA | 0.5 | 0.143 | 0.057 |",
+  "value": "Table 2 row"
+ },
+ {
+  "section": "calibration",
+  "i": 7,
+  "where": "04.results.md",
+  "needle": "| Eldercare | RULA | 0.5 | 0.134 | 0.059 |",
+  "value": "Table 2 row"
+ },
+ {
+  "section": "calibration",
+  "i": 8,
+  "where": "04.results.md",
+  "needle": "| Logistics | OWAS | 0.5 | 0.018 | 0.008 |",
+  "value": "Table 2 row"
+ },
+ {
+  "section": "calibration",
+  "i": 9,
+  "where": "04.results.md",
+  "needle": "| Logistics | REBA | 0.5 | 0.149 | 0.075 |",
+  "value": "Table 2 row"
+ },
+ {
+  "section": "calibration",
+  "i": 10,
+  "where": "04.results.md",
+  "needle": "| Logistics | RULA | 0.5 | 0.121 | 0.045 |",
+  "value": "Table 2 row"
+ },
+ {
+  "section": "calibration",
+  "i": 11,
+  "where": "04.results.md",
+  "needle": "| Manufacturing | OWAS | 0.5 | 0.025 | 0.011 |",
+  "value": "Table 2 row"
+ },
+ {
+  "section": "calibration",
+  "i": 12,
+  "where": "04.results.md",
+  "needle": "| Manufacturing | REBA | 0.5 | 0.113 | 0.049 |",
+  "value": "Table 2 row"
+ },
+ {
+  "section": "calibration",
+  "i": 13,
+  "where": "04.results.md",
+  "needle": "| Manufacturing | RULA | 0.5 | 0.118 | 0.048 |",
+  "value": "Table 2 row"
+ },
+ {
+  "section": "calibration",
+  "i": 14,
+  "where": "04.results.md",
+  "needle": "0.013 (0.003-0.020)",
+  "value": "held-out manufacturing owas"
+ },
+ {
+  "section": "calibration",
+  "i": 15,
+  "where": "04.results.md",
+  "needle": "0.012 (0.008-0.015)",
+  "value": "leave-one-worker-out eldercare owas"
+ },
+ {
+  "section": "calibration",
+  "i": 16,
+  "where": "04.results.md",
+  "needle": "0.011 (0.000-0.020)",
+  "value": "leave-one-worker-out logistics owas"
+ },
+ {
+  "section": "calibration",
+  "i": 17,
+  "where": "04.results.md",
+  "needle": "0.046 (0.035-0.057)",
+  "value": "held-out manufacturing rula"
+ },
+ {
+  "section": "calibration",
+  "i": 18,
+  "where": "04.results.md",
+  "needle": "0.057 (0.038-0.077)",
+  "value": "leave-one-worker-out eldercare rula"
+ },
+ {
+  "section": "calibration",
+  "i": 19,
+  "where": "04.results.md",
+  "needle": "0.069 (0.054-0.093)",
+  "value": "leave-one-worker-out logistics rula"
+ },
+ {
+  "section": "calibration",
+  "i": 20,
+  "where": "04.results.md",
+  "needle": "0.047 (0.029-0.067)",
+  "value": "held-out manufacturing reba"
+ },
+ {
+  "section": "calibration",
+  "i": 21,
+  "where": "04.results.md",
+  "needle": "0.065 (0.051-0.084)",
+  "value": "leave-one-worker-out eldercare reba"
+ },
+ {
+  "section": "calibration",
+  "i": 22,
+  "where": "04.results.md",
+  "needle": "0.056 (0.020-0.074)",
+  "value": "leave-one-worker-out logistics reba"
+ },
+ {
+  "section": "calibration",
+  "i": 23,
+  "where": "04.results.md",
+  "needle": "(1.83-fold for OWAS, 1.09-fold for RULA, 0.95-fold for REBA)",
+  "value": "CI widening"
+ },
+ {
+  "section": "calibration",
+  "i": 24,
+  "where": "03.methods.md",
+  "needle": "100% (RULA), 100% (REBA), and 100% (OWAS)",
+  "value": "MC coverage conf>=0.6"
+ },
+ {
+  "section": "calibration",
+  "i": 25,
+  "where": "03.methods.md",
+  "needle": "(100%, 100%, and 100% of all poses)",
+  "value": "MC coverage all"
+ },
+ {
+  "section": "calibration",
+  "i": 26,
+  "where": "04.results.md",
+  "needle": "contains it for 100% and 100% (100% for OWAS)",
+  "value": "MC coverage all (results)"
+ },
+ {
+  "section": "calibration",
+  "i": 27,
+  "where": "03.methods.md",
+  "needle": "matches the deterministic score for 97% and 97% of poses (100% for OWAS)",
+  "value": "mode match"
+ },
+ {
+  "section": "calibration",
+  "i": 28,
+  "where": "09.supplementary.md",
+  "needle": "| Temperature scaling (main paper) | 1 (T) | 0.118 | 0.048 | -59% |",
+  "value": "Table S2.1 row"
+ },
+ {
+  "section": "calibration",
+  "i": 29,
+  "where": "09.supplementary.md",
+  "needle": "| Platt scaling | 2 (a, b) | 0.118 | 0.010 | -92% |",
+  "value": "Table S2.1 row"
+ },
+ {
+  "section": "calibration",
+  "i": 30,
+  "where": "09.supplementary.md",
+  "needle": "| Isotonic regression | non-parametric | 0.118 | 0.004 | -97% |",
+  "value": "Table S2.1 row"
+ },
+ {
+  "section": "calibration",
+  "i": 31,
+  "where": "09.supplementary.md",
+  "needle": "| Beta calibration | 3 (a, b, c) | 0.118 | 0.010 | -92% |",
+  "value": "Table S2.1 row"
+ },
+ {
+  "section": "calibration",
+  "i": 32,
+  "where": "09.supplementary.md",
+  "needle": "| Eldercare | REBA | 0.5 | 0.057 | 0.2 | 0.020 |",
+  "value": "Table S2.2 row"
+ },
+ {
+  "section": "calibration",
+  "i": 33,
+  "where": "09.supplementary.md",
+  "needle": "| Eldercare | RULA | 0.5 | 0.059 | 0.2 | 0.016 |",
+  "value": "Table S2.2 row"
+ },
+ {
+  "section": "calibration",
+  "i": 34,
+  "where": "09.supplementary.md",
+  "needle": "| Logistics | REBA | 0.5 | 0.075 | 0.2 | 0.027 |",
+  "value": "Table S2.2 row"
+ },
+ {
+  "section": "calibration",
+  "i": 35,
+  "where": "09.supplementary.md",
+  "needle": "| Logistics | RULA | 0.5 | 0.045 | 0.2 | 0.028 |",
+  "value": "Table S2.2 row"
+ },
+ {
+  "section": "calibration",
+  "i": 36,
+  "where": "09.supplementary.md",
+  "needle": "| Manufacturing | REBA | 0.5 | 0.049 | 0.2 | 0.008 |",
+  "value": "Table S2.2 row"
+ },
+ {
+  "section": "calibration",
+  "i": 37,
+  "where": "09.supplementary.md",
+  "needle": "| Manufacturing | RULA | 0.5 | 0.048 | 0.2 | 0.013 |",
+  "value": "Table S2.2 row"
+ },
+ {
+  "section": "biomechanics",
+  "i": 1,
+  "where": "04.results.md",
+  "needle": "26.4",
+  "value": "eldercare L5/S1 median 26.4 Nm"
+ },
+ {
+  "section": "biomechanics",
+  "i": 2,
+  "where": "04.results.md",
+  "needle": "28.6",
+  "value": "manufacturing L5/S1 median 28.6 Nm"
+ },
+ {
+  "section": "biomechanics",
+  "i": 3,
+  "where": "04.results.md",
+  "needle": "0.0%",
+  "value": "AL 0.0%"
+ },
+ {
+  "section": "biomechanics",
+  "i": 4,
+  "where": "04.results.md",
+  "needle": "[0.0, 0.1]",
+  "value": "AL CI [0.0, 0.1] (Wilson)"
+ },
+ {
+  "section": "biomechanics",
+  "i": 5,
+  "where": "04.results.md",
+  "needle": "0.0%",
+  "value": "MPL 0.0%"
+ },
+ {
+  "section": "biomechanics",
+  "i": 6,
+  "where": "04.results.md",
+  "needle": "[0.0, 0.1]",
+  "value": "MPL CI [0.0, 0.1] (Wilson)"
+ },
+ {
+  "section": "biomechanics",
+  "i": 7,
+  "where": "04.results.md",
+  "needle": "889",
+  "value": "eldercare disc median 889 N"
+ },
+ {
+  "section": "biomechanics",
+  "i": 8,
+  "where": "04.results.md",
+  "needle": "895",
+  "value": "manufacturing disc median 895 N"
+ },
+ {
+  "section": "biomechanics",
+  "i": 9,
+  "where": "04.results.md",
+  "needle": "874",
+  "value": "logistics disc median 874 N"
+ },
+ {
+  "section": "biomechanics",
+  "i": 10,
+  "where": "04.results.md",
+  "needle": "H = 9.5",
+  "value": "H=9.5 p=8.6e-03 eps2=0.0016"
+ },
+ {
+  "section": "biomechanics",
+  "i": 11,
+  "where": "04.results.md",
+  "needle": "0.0016",
+  "value": "disc eps2"
+ },
+ {
+  "section": "biomechanics",
+  "i": 12,
+  "where": "04.results.md",
+  "needle": "33.1%",
+  "value": "eldercare L3>30 33.1%"
+ },
+ {
+  "section": "biomechanics",
+  "i": 13,
+  "where": "04.results.md",
+  "needle": "[30.3, 36.1]",
+  "value": "eldercare L3>30 CI [30.3, 36.1] (Wilson)"
+ },
+ {
+  "section": "biomechanics",
+  "i": 14,
+  "where": "04.results.md",
+  "needle": "27.1%",
+  "value": "logistics L3>30 27.1%"
+ },
+ {
+  "section": "biomechanics",
+  "i": 15,
+  "where": "04.results.md",
+  "needle": "[24.4, 29.9]",
+  "value": "logistics L3>30 CI [24.4, 29.9] (Wilson)"
+ },
+ {
+  "section": "biomechanics",
+  "i": 16,
+  "where": "04.results.md",
+  "needle": "40.6%",
+  "value": "manufacturing L3>30 40.6%"
+ },
+ {
+  "section": "biomechanics",
+  "i": 17,
+  "where": "04.results.md",
+  "needle": "[39.1, 42.1]",
+  "value": "manufacturing L3>30 CI [39.1, 42.1] (Wilson)"
+ },
+ {
+  "section": "biomechanics",
+  "i": 18,
+  "where": "04.results.md",
+  "needle": "[0.0, 0.1]",
+  "value": "25 M surgical 0.0 [0.0, 0.1]"
+ },
+ {
+  "section": "biomechanics",
+  "i": 19,
+  "where": "04.results.md",
+  "needle": "[4.4, 5.5]",
+  "value": "65 F surgical 4.9 [4.4, 5.5]"
+ },
+ {
+  "section": "biomechanics",
+  "i": 20,
+  "where": "04.results.md",
+  "needle": "[95.5, 96.5]",
+  "value": "25 M safe 96.1 [95.5, 96.5]"
+ },
+ {
+  "section": "biomechanics",
+  "i": 21,
+  "where": "04.results.md",
+  "needle": "[39.3, 41.7]",
+  "value": "65 F safe 40.5 [39.3, 41.7]"
+ },
+ {
+  "section": "biomechanics",
+  "i": 22,
+  "where": "04.results.md",
+  "needle": "| 25 M | 96.1 | 3.9 | 0.0 | 0.0 |",
+  "value": "Table 3 row"
+ },
+ {
+  "section": "biomechanics",
+  "i": 23,
+  "where": "04.results.md",
+  "needle": "| 40 M | 90.8 | 9.2 | 0.0 | 0.0 |",
+  "value": "Table 3 row"
+ },
+ {
+  "section": "biomechanics",
+  "i": 24,
+  "where": "04.results.md",
+  "needle": "| 55 M | 81.0 | 18.9 | 0.1 | 0.0 |",
+  "value": "Table 3 row"
+ },
+ {
+  "section": "biomechanics",
+  "i": 25,
+  "where": "04.results.md",
+  "needle": "| 25 F | 79.9 | 19.9 | 0.1 | 0.0 |",
+  "value": "Table 3 row"
+ },
+ {
+  "section": "biomechanics",
+  "i": 26,
+  "where": "04.results.md",
+  "needle": "| 40 F | 72.1 | 26.4 | 1.6 | 0.0 |",
+  "value": "Table 3 row"
+ },
+ {
+  "section": "biomechanics",
+  "i": 27,
+  "where": "04.results.md",
+  "needle": "| 55 F | 56.6 | 33.0 | 9.9 | 0.5 |",
+  "value": "Table 3 row"
+ },
+ {
+  "section": "biomechanics",
+  "i": 28,
+  "where": "04.results.md",
+  "needle": "| 65 F | 40.5 | 37.6 | 17.0 | 4.9 |",
+  "value": "Table 3 row"
+ },
+ {
+  "section": "biomechanics",
+  "i": 29,
+  "where": "06.conclusion.md",
+  "needle": "from none of the poses to 4.9%",
+  "value": "25 M exceeds in no pose"
+ },
+ {
+  "section": "biomechanics",
+  "i": 30,
+  "where": "04.results.md",
+  "needle": "from 0.0% to 0.7% (at 0.04 m) or 0.0% (at 0.06 m)",
+  "value": "moment arm AL"
+ },
+ {
+  "section": "biomechanics",
+  "i": 31,
+  "where": "04.results.md",
+  "needle": "from 0.0% to 0.0% or 0.0%",
+  "value": "moment arm MPL"
+ },
+ {
+  "section": "biomechanics",
+  "i": 32,
+  "where": "03.methods.md",
+  "needle": "Pearson r = 0.979 over all 6,007 poses",
+  "value": "dense-spine vs joint-moment L5/S1"
+ },
+ {
+  "section": "biomechanics",
+  "i": 33,
+  "where": "04.results.md",
+  "needle": "REBA grand score = 0.69",
+  "value": "L5/S1-REBA rho"
+ },
+ {
+  "section": "biomechanics",
+  "i": 34,
+  "where": "04.results.md",
+  "needle": "ratio of medians 0.92, bootstrap 95% CI [0.82, 1.05]; one-sided Mann-Whitney p = 0.92",
+  "value": "L5/S1 eldercare/manufacturing"
+ },
+ {
+  "section": "shapley",
+  "i": 1,
+  "where": "04.results.md",
+  "needle": "9,830",
+  "value": "RULA random checks"
+ },
+ {
+  "section": "shapley",
+  "i": 2,
+  "where": "04.results.md",
+  "needle": "8,461",
+  "value": "REBA random checks"
+ },
+ {
+  "section": "shapley",
+  "i": 3,
+  "where": "04.results.md",
+  "needle": "11.53% (Wilson 95% CI [10.60, 12.92]",
+  "value": "OWAS violation 11.53% (Wilson 95% CI [10.60, 12.92]"
+ },
+ {
+  "section": "shapley",
+  "i": 4,
+  "where": "04.results.md",
+  "needle": "11.07%",
+  "value": "OWAS exhaustive rate"
+ },
+ {
+  "section": "shapley",
+  "i": 5,
+  "where": "04.results.md",
+  "needle": "1,010 verification trials",
+  "value": "1010 trials"
+ },
+ {
+  "section": "shapley",
+  "i": 6,
+  "where": "04.results.md",
+  "needle": "residual below 9e-15",
+  "value": "8.9e-15"
+ },
+ {
+  "section": "shapley",
+  "i": 7,
+  "where": "04.results.md",
+  "needle": "below 2e-14",
+  "value": "2.0e-14"
+ },
+ {
+  "section": "shapley",
+  "i": 8,
+  "where": "04.results.md",
+  "needle": "neck accounts for 41%",
+  "value": "Neck 40.7%"
+ },
+ {
+  "section": "shapley",
+  "i": 9,
+  "where": "04.results.md",
+  "needle": "upper arm 20%",
+  "value": "Upper arm 20.2%"
+ },
+ {
+  "section": "shapley",
+  "i": 10,
+  "where": "04.results.md",
+  "needle": "trunk 35%",
+  "value": "Trunk 34.6%"
+ },
+ {
+  "section": "shapley",
+  "i": 11,
+  "where": "04.results.md",
+  "needle": "trunk and neck together 75%",
+  "value": "trunk+neck"
+ },
+ {
+  "section": "shapley",
+  "i": 12,
+  "where": "04.results.md",
+  "needle": "all 237 poses at the highest RULA grand score in the cohort (6)",
+  "value": "highest-RULA poses"
+ },
+ {
+  "section": "fusion",
+  "i": 1,
+  "where": "04.results.md",
+  "needle": "(128.9 to 127.7 Nm)",
+  "value": "soft L5/S1"
+ },
+ {
+  "section": "fusion",
+  "i": 2,
+  "where": "04.results.md",
+  "needle": "(7.0 to 1.7 Nm and 25.6 to 12.2 Nm)",
+  "value": "soft knee, hip"
+ },
+ {
+  "section": "fusion",
+  "i": 3,
+  "where": "04.results.md",
+  "needle": "(9.4 to 6.2 Nm)",
+  "value": "soft shoulder"
+ },
+ {
+  "section": "fusion",
+  "i": 4,
+  "where": "04.results.md",
+  "needle": "(hip 25.6 to 12.1 Nm, shoulder 9.4 to 7.1 Nm, knee 7.0 to 1.2 Nm",
+  "value": "WTA hip, shoulder, knee"
+ },
+ {
+  "section": "fusion",
+  "i": 5,
+  "where": "04.results.md",
+  "needle": "guarded fusion reproduces the single-backbone values",
+  "value": "max |guarded delta| 0.0"
+ },
+ {
+  "section": "backbones",
+  "i": 1,
+  "where": "09.supplementary.md",
+  "needle": "| RTMPose-Body | 17 | 93.3 (82.4-100) | 0.76 |",
+  "value": "Table S3.1 row"
+ },
+ {
+  "section": "backbones",
+  "i": 2,
+  "where": "09.supplementary.md",
+  "needle": "| RTMPose-BodyWithFeet | 23 | 91.9 (73.9-100) | 0.77 |",
+  "value": "Table S3.1 row"
+ },
+ {
+  "section": "backbones",
+  "i": 3,
+  "where": "09.supplementary.md",
+  "needle": "| RTMW3D-x, major-25 | 23 | 87.6 (56.5-100) | 0.68 |",
+  "value": "Table S3.1 row"
+ },
+ {
+  "section": "agreement",
+  "i": 1,
+  "where": "04.results.md",
+  "needle": "| OWAS vs RULA | 0.006 | 0.109 | 0.529 |",
+  "value": "Table 4 row"
+ },
+ {
+  "section": "agreement",
+  "i": 2,
+  "where": "04.results.md",
+  "needle": "| OWAS vs REBA | 0.116 | 0.218 | 0.660 |",
+  "value": "Table 4 row"
+ },
+ {
+  "section": "agreement",
+  "i": 3,
+  "where": "04.results.md",
+  "needle": "| RULA vs REBA | 0.365 | 0.551 | 0.576 |",
+  "value": "Table 4 row"
+ },
+ {
+  "section": "agreement",
+  "i": 4,
+  "where": "letter",
+  "needle": "quadratic-weighted kappa 0.55 between RULA and REBA",
+  "value": "kappa (letter)"
+ },
+ {
+  "section": "agreement",
+  "i": 5,
+  "where": "letter",
+  "needle": "0.11 and 0.22 between OWAS and RULA or REBA",
+  "value": "kappa (letter)"
+ },
+ {
+  "section": "agreement",
+  "i": 6,
+  "where": "letter",
+  "needle": "rank-correlate at rho 0.58",
+  "value": "rho (letter)"
+ },
+ {
+  "section": "agreement",
+  "i": 7,
+  "where": "letter",
+  "needle": "rank correlations (0.53 and 0.66",
+  "value": "rho (letter)"
+ },
+ {
+  "section": "context",
+  "i": 1,
+  "where": "03.methods.md",
+  "needle": "under-reporting REBA by 1.4 points",
+  "value": "context default shift"
+ },
+ {
+  "section": "context",
+  "i": 2,
+  "where": "letter",
+  "needle": "REBA plus 1.43 points",
+  "value": "context default shift (letter)"
+ },
+ {
+  "section": "context",
+  "i": 3,
+  "where": "09.supplementary.md",
+  "needle": "Spearman rho = 0.59",
+  "value": "S8 rho"
+ },
+ {
+  "section": "context",
+  "i": 4,
+  "where": "04.results.md",
+  "needle": "reaches 37.4% top-1 accuracy, macro-F1 0.306, and balanced accuracy 0.391 across 15 process classes (n = 5,998",
+  "value": "classifier"
+ },
+ {
+  "section": "context",
+  "i": 5,
+  "where": "04.results.md",
+  "needle": "held-out test split it reaches 39.3% and macro-F1 0.324",
+  "value": "classifier test split"
+ },
+ {
+  "section": "contact",
+  "i": 1,
+  "where": "04.results.md",
+  "needle": "20.2% of eldercare poses",
+  "value": "contact eldercare"
+ },
+ {
+  "section": "contact",
+  "i": 2,
+  "where": "04.results.md",
+  "needle": "4.3% of logistics",
+  "value": "contact logistics"
+ },
+ {
+  "section": "contact",
+  "i": 3,
+  "where": "04.results.md",
+  "needle": "2.2% of manufacturing",
+  "value": "contact manufacturing"
+ },
+ {
+  "section": "contact",
+  "i": 4,
+  "where": "04.results.md",
+  "needle": "raising 18% of eldercare RULA and 17% of eldercare REBA",
+  "value": "contact changes"
+ },
+ {
+  "section": "vlm",
+  "i": 1,
+  "where": "04.results.md",
+  "needle": "(0 of 50 recorded as `unknown`)",
+  "value": "0 unknown load_band"
+ },
+ {
+  "section": "vlm",
+  "i": 2,
+  "where": "04.results.md",
+  "needle": "of the 12 poses",
+  "value": "{'none': 12}"
+ },
+ {
+  "section": "vlm",
+  "i": 3,
+  "where": "04.results.md",
+  "needle": "agreed on 0 of 12",
+  "value": "{'none': 12}"
+ },
+ {
+  "section": "vlm",
+  "i": 4,
+  "where": "04.results.md",
+  "needle": "activity-static (100%) and moderate on coupling (72%)",
+  "value": "{'static': 100, 'coupling': 72, 'repetitive': 34, 'rapid': 52, 'load_band': 0}"
+ },
+ {
+  "section": "vlm",
+  "i": 5,
+  "where": "04.results.md",
+  "needle": "activity-repetitive (34%) and activity-rapid (52%)",
+  "value": "{'static': 100, 'coupling': 72, 'repetitive': 34, 'rapid': 52, 'load_band': 0}"
+ },
+ {
+  "section": "vlm",
+  "i": 6,
+  "where": "04.results.md",
+  "needle": "agreement is 0% only",
+  "value": "raw load"
+ },
+ {
+  "section": "vlm",
+  "i": 7,
+  "where": "04.results.md",
+  "needle": "semantically normalised, agreement is 74%",
+  "value": "normalised load"
+ },
+ {
+  "section": "vlm",
+  "i": 8,
+  "where": "letter",
+  "needle": "100 percent on the activity-static flag, 72 percent on coupling, 34 percent on activity-repetitive, and 52 percent on activity-rapid",
+  "value": "{'static': 100, 'coupling': 72, 'repetitive': 34, 'rapid': 52, 'load_band': 0}"
+ },
+ {
+  "section": "vlm",
+  "i": 9,
+  "where": "letter",
+  "needle": "Raw string-match agreement was 0 percent",
+  "value": "raw load (letter)"
+ },
+ {
+  "section": "vlm",
+  "i": 10,
+  "where": "letter",
+  "needle": "agreement is 74 percent",
+  "value": "normalised load (letter)"
+ },
+ {
+  "section": "vlm",
+  "i": 11,
+  "where": "letter",
+  "needle": "of the 12 poses",
+  "value": "flagged load (letter)"
+ },
+ {
+  "section": "expert",
+  "i": 1,
+  "where": "letter",
+  "needle": "12/22 for OWAS, 5/22 for RULA, and 8/22 for REBA",
+  "value": "{'OWAS': 12, 'REBA': 8, 'RULA': 5}"
+ },
+ {
+  "section": "expert",
+  "i": 2,
+  "where": "letter",
+  "needle": "14 of 22 images",
+  "value": "RULA under 14"
+ },
+ {
+  "section": "expert",
+  "i": 3,
+  "where": "letter",
+  "needle": "37 of 41",
+  "value": "load 37/41"
+ },
+ {
+  "section": "expert",
+  "i": 4,
+  "where": "letter",
+  "needle": "14 of 41",
+  "value": "walk 14/41"
+ },
+ {
+  "section": "expert",
+  "i": 5,
+  "where": "letter",
+  "needle": "10 of 41",
+  "value": "repet 10/41"
+ },
+ {
+  "section": "expert",
+  "i": 6,
+  "where": "letter",
+  "needle": "from 3 to",
+  "value": "OWAS legs before fix 3/22"
+ },
+ {
+  "section": "expert",
+  "i": 7,
+  "where": "letter",
+  "needle": "from 5 to",
+  "value": "REBA legs before fix 5/22"
+ },
+ {
+  "section": "expert",
+  "i": 8,
+  "where": "04.results.md",
+  "needle": " | 12 | 5 | 8 | 0.86 | 1.27 | 0.82 |",
+  "value": "Table 5 stage submitted"
+ },
+ {
+  "section": "expert",
+  "i": 9,
+  "where": "04.results.md",
+  "needle": " | 13 | 6 | 8 | 0.77 | 1.14 | 0.82 |",
+  "value": "Table 5 stage tables"
+ },
+ {
+  "section": "expert",
+  "i": 10,
+  "where": "04.results.md",
+  "needle": " | 13 | 6 | 5 | 0.77 | 1.14 | 1.05 |",
+  "value": "Table 5 stage legs"
+ },
+ {
+  "section": "expert",
+  "i": 11,
+  "where": "04.results.md",
+  "needle": " | 13 | 7 | 6 | 0.77 | 1.05 | 0.95 |",
+  "value": "Table 5 stage contact"
+ },
+ {
+  "section": "expert",
+  "i": 12,
+  "where": "04.results.md",
+  "needle": " | 12 | 9 | 9 | 0.91 | 0.91 | 0.73 |",
+  "value": "Table 5 stage worker"
+ },
+ {
+  "section": "expert",
+  "i": 13,
+  "where": "04.results.md",
+  "needle": " | 12 | 4 | 11 | 0.77 | 1.32 | 0.64 |",
+  "value": "Table 5 stage angles"
+ },
+ {
+  "section": "expert",
+  "i": 14,
+  "where": "04.results.md",
+  "needle": " | 12 | 4 | 8 | 0.77 | 1.27 | 0.77 |",
+  "value": "Table 5 stage posture"
+ },
+ {
+  "section": "expert",
+  "i": 15,
+  "where": "04.results.md",
+  "needle": " | 12 | 4 | 8 | 0.77 | 1.32 | 0.77 |",
+  "value": "Table 5 stage wrist"
+ },
+ {
+  "section": "expert",
+  "i": 16,
+  "where": "04.results.md",
+  "needle": " | 12 | 10 | 10 | 0.77 | 0.73 | 0.68 |",
+  "value": "Table 5 stage taskload"
+ },
+ {
+  "section": "expert",
+  "i": 17,
+  "where": "04.results.md",
+  "needle": "agreement at 12, 4, and 8 of 22 for OWAS, RULA, and REBA",
+  "value": "stage 6 agreement"
+ },
+ {
+  "section": "expert",
+  "i": 18,
+  "where": "04.results.md",
+  "needle": "agreement is 12, 10, and 10 of 22 (Fig. 13, bottom row)",
+  "value": "stage 8 agreement"
+ },
+ {
+  "section": "expert",
+  "i": 19,
+  "where": "04.results.md",
+  "needle": "agreement is 12, 9, and 4 of 22 for OWAS, REBA, and RULA, with RULA below the expert in 17 of 22",
+  "value": "pilot, cohort code (no contact rule)"
+ },
+ {
+  "section": "expert",
+  "i": 20,
+  "where": "letter",
+  "needle": "exact agreement with the expert is 12, 10, and 10 of 22 for OWAS, RULA, and REBA",
+  "value": "pilot, final code (letter)"
+ },
+ {
+  "section": "expert",
+  "i": 21,
+  "where": "letter",
+  "needle": "The posture corrections alone give 12, 4, and 8",
+  "value": "pilot, posture corrections (letter)"
+ },
+ {
+  "section": "limits",
+  "i": 1,
+  "where": "04.results.md",
+  "needle": "87.4% for OWAS (95% bootstrap interval 85.4-89.1)",
+  "value": "test20 accuracy OWAS"
+ },
+ {
+  "section": "limits",
+  "i": 2,
+  "where": "04.results.md",
+  "needle": "91.2% for RULA (89.6-92.8)",
+  "value": "test20 accuracy RULA"
+ },
+ {
+  "section": "limits",
+  "i": 3,
+  "where": "04.results.md",
+  "needle": "77.7% for REBA (75.6-79.8)",
+  "value": "test20 accuracy REBA"
+ },
+ {
+  "section": "limits",
+  "i": 4,
+  "where": "04.results.md",
+  "needle": "kappa 0.80, 0.95, and 0.84",
+  "value": "test20 quadratic kappa"
+ },
+ {
+  "section": "limits",
+  "i": 5,
+  "where": "04.results.md",
+  "needle": "29.6% of the 5,889 annotated images are fully measurable for OWAS and 31.5% for RULA and REBA",
+  "value": "measurable share 30 deg"
+ },
+ {
+  "section": "limits",
+  "i": 6,
+  "where": "04.results.md",
+  "needle": "from 88.6% to 93.7% for OWAS and from 91.5% to 97.0% for RULA",
+  "value": "measurable subset agreement"
+ },
+ {
+  "section": "limits_expert",
+  "i": 1,
+  "where": "04.results.md",
+  "needle": "gives exact agreement with the expert of 12, 12, and 10 of 22",
+  "value": "annotated-keypoint pose vs expert"
+ },
+ {
+  "section": "tests",
+  "i": 1,
+  "where": "03.methods.md",
+  "needle": "ships 137 unit tests",
+  "value": "137 passed, 1 warning in 8.79s"
+ },
+ {
+  "section": "runtime",
+  "i": 1,
+  "where": "03.methods.md",
+  "needle": "pose 17.6 min",
+  "value": "1054 s"
+ },
+ {
+  "section": "runtime",
+  "i": 2,
+  "where": "03.methods.md",
+  "needle": "MC layer 7.5 min",
+  "value": "May 2026 c3_mc run 447 s"
+ },
+ {
+  "section": "runtime",
+  "i": 3,
+  "where": "03.methods.md",
+  "needle": "under 30 min",
+  "value": "pose+MC 25.0 min"
+ }
+]

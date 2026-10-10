@@ -1,0 +1,483 @@
+{
+  "manufacturing_worker_held_out_repeated": {
+    "manufacturing/owas": {
+      "n_repeats": 20,
+      "ece_after_mean": 0.012521502318117791,
+      "ece_after_std": 0.0044222602374690365,
+      "ece_after_min_max": [
+        0.003486100944486399,
+        0.02040949671923582
+      ],
+      "brier_after_mean": 0.011434133869525348
+    },
+    "manufacturing/rula": {
+      "n_repeats": 20,
+      "ece_after_mean": 0.045924917329317194,
+      "ece_after_std": 0.005668524636217023,
+      "ece_after_min_max": [
+        0.035313935023951866,
+        0.05703645813275435
+      ],
+      "brier_after_mean": 0.053365506578997766
+    },
+    "manufacturing/reba": {
+      "n_repeats": 20,
+      "ece_after_mean": 0.047395500510070694,
+      "ece_after_std": 0.009737396082878203,
+      "ece_after_min_max": [
+        0.02873434934138072,
+        0.06714405374734947
+      ],
+      "brier_after_mean": 0.055647072409388675
+    }
+  },
+  "manufacturing_worker_held_out_single_split_examples": [
+    {
+      "manufacturing/owas": {
+        "n_train": 2850,
+        "n_val": 1151,
+        "T": 0.5,
+        "brier_before": 0.008617570149598176,
+        "brier_after": 0.00497985875229175,
+        "ece_before": 0.012224424413553425,
+        "ece_after": 0.004963980717414525
+      },
+      "manufacturing/rula": {
+        "n_train": 2850,
+        "n_val": 1151,
+        "T": 0.5,
+        "brier_before": 0.09347266388602303,
+        "brier_after": 0.054077373213079656,
+        "ece_before": 0.1225700477845352,
+        "ece_after": 0.051448169762315615
+      },
+      "manufacturing/reba": {
+        "n_train": 2850,
+        "n_val": 1151,
+        "T": 0.5,
+        "brier_before": 0.11493084308481755,
+        "brier_after": 0.07161828119829335,
+        "ece_before": 0.13321975456125107,
+        "ece_after": 0.058771122625659256
+      },
+      "_n_val_workers": 1,
+      "_n_train_workers": 36
+    },
+    {
+      "manufacturing/owas": {
+        "n_train": 3038,
+        "n_val": 963,
+        "T": 0.5,
+        "brier_before": 0.01516295816296729,
+        "brier_after": 0.009506722437835204,
+        "ece_before": 0.018002011941848438,
+        "ece_after": 0.007907158365378397
+      },
+      "manufacturing/rula": {
+        "n_train": 3038,
+        "n_val": 963,
+        "T": 0.5,
+        "brier_before": 0.07745735271449897,
+        "brier_after": 0.050266985836319264,
+        "ece_before": 0.09603777258566981,
+        "ece_after": 0.040242704801717884
+      },
+      "manufacturing/reba": {
+        "n_train": 3038,
+        "n_val": 963,
+        "T": 0.5,
+        "brier_before": 0.09753227828076325,
+        "brier_after": 0.05447625385000949,
+        "ece_before": 0.13505159657320875,
+        "ece_after": 0.06714405374734947
+      },
+      "_n_val_workers": 15,
+      "_n_train_workers": 22
+    },
+    {
+      "manufacturing/owas": {
+        "n_train": 2905,
+        "n_val": 1096,
+        "T": 0.5,
+        "brier_before": 0.010756443886861315,
+        "brier_after": 0.006472161654668008,
+        "ece_before": 0.015368385036496374,
+        "ece_after": 0.008849495790735672
+      },
+      "manufacturing/rula": {
+        "n_train": 2905,
+        "n_val": 1096,
+        "T": 0.5,
+        "brier_before": 0.07216816923044024,
+        "brier_after": 0.042804426156231035,
+        "ece_before": 0.10015111770072993,
+        "ece_after": 0.043780376142176385
+      },
+      "manufacturing/reba": {
+        "n_train": 2905,
+        "n_val": 1096,
+        "T": 0.5,
+        "brier_before": 0.09953074211621807,
+        "brier_after": 0.06055137094217357,
+        "ece_before": 0.12641138229927007,
+        "ece_after": 0.058850843867246226
+      },
+      "_n_val_workers": 7,
+      "_n_train_workers": 30
+    }
+  ],
+  "manufacturing_n_val_workers_range": [
+    1,
+    20
+  ],
+  "eldercare_leave_one_worker_out": {
+    "folds": {
+      "6_1": {
+        "eldercare/owas": {
+          "n_train": 633,
+          "n_val": 373,
+          "T": 0.5,
+          "brier_before": 0.02486176273458445,
+          "brier_after": 0.018221750312965638,
+          "ece_before": 0.02184567694369975,
+          "ece_after": 0.007823067599902565
+        },
+        "eldercare/rula": {
+          "n_train": 633,
+          "n_val": 373,
+          "T": 0.5,
+          "brier_before": 0.11323935991957104,
+          "brier_after": 0.06440381693076448,
+          "ece_before": 0.15750670241286863,
+          "ece_after": 0.07720934122241538
+        },
+        "eldercare/reba": {
+          "n_train": 633,
+          "n_val": 373,
+          "T": 0.5,
+          "brier_before": 0.11631500816856569,
+          "brier_after": 0.07241770762873204,
+          "ece_before": 0.14039460455764075,
+          "ece_after": 0.06294735555035183
+        }
+      },
+      "6_2": {
+        "eldercare/owas": {
+          "n_train": 894,
+          "n_val": 112,
+          "T": 0.5,
+          "brier_before": 0.012371608189174108,
+          "brier_after": 0.007184489402754055,
+          "ece_before": 0.019601004464285685,
+          "ece_after": 0.01147927237408498
+        },
+        "eldercare/rula": {
+          "n_train": 894,
+          "n_val": 112,
+          "T": 0.5,
+          "brier_before": 0.13211931501116073,
+          "brier_after": 0.08736621041315155,
+          "ece_before": 0.15101841517857142,
+          "ece_after": 0.06757419955517562
+        },
+        "eldercare/reba": {
+          "n_train": 894,
+          "n_val": 112,
+          "T": 0.5,
+          "brier_before": 0.12711443219866073,
+          "brier_after": 0.07068189361851483,
+          "ece_before": 0.1651088169642857,
+          "ece_after": 0.0844538238431726
+        }
+      },
+      "6_3": {
+        "eldercare/owas": {
+          "n_train": 764,
+          "n_val": 242,
+          "T": 0.5,
+          "brier_before": 0.01513671875,
+          "brier_after": 0.009827596940068541,
+          "ece_before": 0.022404442148760285,
+          "ece_after": 0.01416643912141975
+        },
+        "eldercare/rula": {
+          "n_train": 764,
+          "n_val": 242,
+          "T": 0.5,
+          "brier_before": 0.06489348608600207,
+          "brier_after": 0.03842266752363499,
+          "ece_before": 0.0906185433884298,
+          "ece_after": 0.03813108038311161
+        },
+        "eldercare/reba": {
+          "n_train": 764,
+          "n_val": 242,
+          "T": 0.5,
+          "brier_before": 0.0896646799134814,
+          "brier_after": 0.05359406418171373,
+          "ece_before": 0.12958419421487608,
+          "ece_after": 0.05100764494296936
+        }
+      },
+      "6_4": {
+        "eldercare/owas": {
+          "n_train": 727,
+          "n_val": 279,
+          "T": 0.5,
+          "brier_before": 0.021253797743055556,
+          "brier_after": 0.008797548888577249,
+          "ece_before": 0.03766241039426518,
+          "ece_after": 0.014946736101608554
+        },
+        "eldercare/rula": {
+          "n_train": 727,
+          "n_val": 279,
+          "T": 0.5,
+          "brier_before": 0.10057106154793907,
+          "brier_after": 0.06565005881102452,
+          "ece_before": 0.11682347670250896,
+          "ece_after": 0.04417106466481334
+        },
+        "eldercare/reba": {
+          "n_train": 727,
+          "n_val": 279,
+          "T": 0.5,
+          "brier_before": 0.10004296524977599,
+          "brier_after": 0.053824956503904814,
+          "ece_before": 0.14404121863799285,
+          "ece_after": 0.06280279458637303
+        }
+      }
+    },
+    "summary": {
+      "eldercare/owas": {
+        "n_folds": 4,
+        "ece_after_mean": 0.012103878799253964,
+        "ece_after_min_max": [
+          0.007823067599902565,
+          0.014946736101608554
+        ]
+      },
+      "eldercare/rula": {
+        "n_folds": 4,
+        "ece_after_mean": 0.05677142145637898,
+        "ece_after_min_max": [
+          0.03813108038311161,
+          0.07720934122241538
+        ]
+      },
+      "eldercare/reba": {
+        "n_folds": 4,
+        "ece_after_mean": 0.0653029047307167,
+        "ece_after_min_max": [
+          0.05100764494296936,
+          0.0844538238431726
+        ]
+      }
+    }
+  },
+  "logistics_leave_one_worker_out": {
+    "folds": {
+      "7_1": {
+        "logistics/owas": {
+          "n_train": 994,
+          "n_val": 6,
+          "T": 0.5,
+          "brier_before": 0.0,
+          "brier_after": 2.9999953840852325e-48,
+          "ece_before": 0.0,
+          "ece_after": 0.0
+        },
+        "logistics/rula": {
+          "n_train": 994,
+          "n_val": 6,
+          "T": 0.5,
+          "brier_before": 0.10736083984375,
+          "brier_after": 0.04959746068795151,
+          "ece_before": 0.18489583333333331,
+          "ece_after": 0.09262923399607338
+        },
+        "logistics/reba": {
+          "n_train": 994,
+          "n_val": 6,
+          "T": 0.5,
+          "brier_before": 0.0281982421875,
+          "brier_after": 0.0030067545509670154,
+          "ece_before": 0.09505208333333331,
+          "ece_after": 0.020268787940343258
+        }
+      },
+      "7_5": {
+        "logistics/owas": {
+          "n_train": 727,
+          "n_val": 273,
+          "T": 0.5,
+          "brier_before": 0.012859861492673992,
+          "brier_after": 0.007459081450179692,
+          "ece_before": 0.020718864468864485,
+          "ece_after": 0.011818195219005005
+        },
+        "logistics/rula": {
+          "n_train": 727,
+          "n_val": 273,
+          "T": 0.5,
+          "brier_before": 0.10408305073832418,
+          "brier_after": 0.07195520503302331,
+          "ece_before": 0.1177598443223443,
+          "ece_after": 0.05425519679055548
+        },
+        "logistics/reba": {
+          "n_train": 727,
+          "n_val": 273,
+          "T": 0.5,
+          "brier_before": 0.09956600203182235,
+          "brier_after": 0.0640323349906661,
+          "ece_before": 0.11652930402930406,
+          "ece_after": 0.0578978953562377
+        }
+      },
+      "7_6": {
+        "logistics/owas": {
+          "n_train": 738,
+          "n_val": 262,
+          "T": 0.5,
+          "brier_before": 0.014460672859017176,
+          "brier_after": 0.010727953530672641,
+          "ece_before": 0.01735448473282444,
+          "ece_after": 0.011847126347418097
+        },
+        "logistics/rula": {
+          "n_train": 738,
+          "n_val": 262,
+          "T": 0.5,
+          "brier_before": 0.10904932386092557,
+          "brier_after": 0.0600163159538359,
+          "ece_before": 0.16018606870229007,
+          "ece_after": 0.07700228782100535
+        },
+        "logistics/reba": {
+          "n_train": 738,
+          "n_val": 262,
+          "T": 0.5,
+          "brier_before": 0.1311351979961832,
+          "brier_after": 0.08052728310160849,
+          "ece_before": 0.15604126908396948,
+          "ece_after": 0.07379997777574841
+        }
+      },
+      "7_7": {
+        "logistics/owas": {
+          "n_train": 860,
+          "n_val": 140,
+          "T": 0.5,
+          "brier_before": 0.017026192801339286,
+          "brier_after": 0.00749042353786257,
+          "ece_before": 0.031026785714285687,
+          "ece_after": 0.01485434813158857
+        },
+        "logistics/rula": {
+          "n_train": 860,
+          "n_val": 140,
+          "T": 0.5,
+          "brier_before": 0.08720179966517858,
+          "brier_after": 0.04043280486096647,
+          "ece_before": 0.13018973214285717,
+          "ece_after": 0.06498756408691404
+        },
+        "logistics/reba": {
+          "n_train": 860,
+          "n_val": 140,
+          "T": 0.5,
+          "brier_before": 0.09136178152901786,
+          "brier_after": 0.04605483080179931,
+          "ece_before": 0.13119419642857147,
+          "ece_after": 0.057967729866504634
+        }
+      },
+      "7_8": {
+        "logistics/owas": {
+          "n_train": 705,
+          "n_val": 295,
+          "T": 0.5,
+          "brier_before": 0.012970074152542373,
+          "brier_after": 0.007710396733728602,
+          "ece_before": 0.01938559322033903,
+          "ece_after": 0.008239171666614122
+        },
+        "logistics/rula": {
+          "n_train": 705,
+          "n_val": 295,
+          "T": 0.5,
+          "brier_before": 0.09967806541313559,
+          "brier_after": 0.060108375972107275,
+          "ece_before": 0.11843220338983053,
+          "ece_after": 0.058366778139340644
+        },
+        "logistics/reba": {
+          "n_train": 705,
+          "n_val": 295,
+          "T": 0.5,
+          "brier_before": 0.10119215108580508,
+          "brier_after": 0.057972144104130076,
+          "ece_before": 0.1322563559322034,
+          "ece_after": 0.05571961342278176
+        }
+      },
+      "7_9": {
+        "logistics/owas": {
+          "n_train": 976,
+          "n_val": 24,
+          "T": 0.5,
+          "brier_before": 0.0201873779296875,
+          "brier_after": 0.01955190180765957,
+          "ece_before": 0.0205078125,
+          "ece_after": 0.020182450612386067
+        },
+        "logistics/rula": {
+          "n_train": 976,
+          "n_val": 24,
+          "T": 0.5,
+          "brier_before": 0.0742340087890625,
+          "brier_after": 0.0496044409465131,
+          "ece_before": 0.12109374999999999,
+          "ece_after": 0.06769804904858275
+        },
+        "logistics/reba": {
+          "n_train": 976,
+          "n_val": 24,
+          "T": 0.5,
+          "brier_before": 0.08156840006510417,
+          "brier_after": 0.03872949213930777,
+          "ece_before": 0.14420572916666669,
+          "ece_after": 0.0717603291074435
+        }
+      }
+    },
+    "summary": {
+      "logistics/owas": {
+        "n_folds": 6,
+        "ece_after_mean": 0.011156881996168643,
+        "ece_after_min_max": [
+          0.0,
+          0.020182450612386067
+        ]
+      },
+      "logistics/rula": {
+        "n_folds": 6,
+        "ece_after_mean": 0.06915651831374527,
+        "ece_after_min_max": [
+          0.05425519679055548,
+          0.09262923399607338
+        ]
+      },
+      "logistics/reba": {
+        "n_folds": 6,
+        "ece_after_mean": 0.05623572224484322,
+        "ece_after_min_max": [
+          0.020268787940343258,
+          0.07379997777574841
+        ]
+      }
+    }
+  }
+}

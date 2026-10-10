@@ -1,0 +1,1 @@
+The independent expert's scores for the 22 pilot images (Section 4.9) will be added here as expert_pilot_scores.csv once the expert consents to their release. Until then the scripts that need them (fig_expert_comparison.py, fig_expert_load_fix.py) are skipped by reproduce.sh.

@@ -1,0 +1,42 @@
+{
+  "_doc": "Task-level context for the OWAS/RULA/REBA modifiers that a single frame cannot show, keyed by the dataset's process label. static_or_repeated: whether a posture seen in one frame is taken as held or repeated (RULA muscle use, REBA activity); false, as in the expert's scoring. Per task: load_kg (typical handled load; unlisted tasks get 0 kg) and load_repeated (load handled repeatedly, RULA force/load score only). status: literature, provisional, or expert (the expert's task-level judgement, fixed before the held-out images are scored). Values never come from per-image expert scores.",
+  "static_or_repeated": false,
+  "tasks": {
+    "이동": {
+      "load_kg": 25.0,
+      "load_repeated": true,
+      "status": "literature",
+      "source": "Patient handling: supporting or moving a person's body weight exceeds the 35 lb (16 kg) recommended limit for manual patient lifting (Waters 2007, AJN 107(8):53-58, doi:10.1097/01.naj.0000282296.18688.b1); coded in the above-20 kg band, handled repeatedly"
+    },
+    "도움": {
+      "load_kg": 25.0,
+      "load_repeated": true,
+      "status": "provisional",
+      "source": "PROVISIONAL until the ergonomics expert's task-level table (requested 2026-10-08) replaces it: assisting a care recipient involves supporting part of their body weight; Patient handling: supporting or moving a person's body weight exceeds the 35 lb (16 kg) recommended limit for manual patient lifting (Waters 2007, AJN 107(8):53-58, doi:10.1097/01.naj.0000282296.18688.b1); coded in the above-20 kg band, handled repeatedly"
+    },
+    "씻기": {
+      "load_kg": 25.0,
+      "load_repeated": true,
+      "status": "provisional",
+      "source": "PROVISIONAL until the ergonomics expert's task-level table (requested 2026-10-08) replaces it: washing a care recipient involves supporting their body; Patient handling: supporting or moving a person's body weight exceeds the 35 lb (16 kg) recommended limit for manual patient lifting (Waters 2007, AJN 107(8):53-58, doi:10.1097/01.naj.0000282296.18688.b1); coded in the above-20 kg band, handled repeatedly"
+    },
+    "목욕수행": {
+      "load_kg": 25.0,
+      "load_repeated": true,
+      "status": "provisional",
+      "source": "PROVISIONAL until the ergonomics expert's task-level table (requested 2026-10-08) replaces it: bathing a care recipient involves supporting their body; Patient handling: supporting or moving a person's body weight exceeds the 35 lb (16 kg) recommended limit for manual patient lifting (Waters 2007, AJN 107(8):53-58, doi:10.1097/01.naj.0000282296.18688.b1); coded in the above-20 kg band, handled repeatedly"
+    },
+    "마사지": {
+      "load_kg": 25.0,
+      "load_repeated": true,
+      "status": "provisional",
+      "source": "PROVISIONAL until the ergonomics expert's task-level table (requested 2026-10-08) replaces it: repositioning a care recipient during massage involves supporting their body; Patient handling: supporting or moving a person's body weight exceeds the 35 lb (16 kg) recommended limit for manual patient lifting (Waters 2007, AJN 107(8):53-58, doi:10.1097/01.naj.0000282296.18688.b1); coded in the above-20 kg band, handled repeatedly"
+    },
+    "식사": {
+      "load_kg": 15.0,
+      "load_repeated": true,
+      "status": "provisional",
+      "source": "PROVISIONAL until the ergonomics expert's task-level table (requested 2026-10-08) replaces it: meal service at the logistics site involves carrying meal containers; the expert's pilot notes describe loads of 10-20 kg for this task"
+    }
+  }
+}

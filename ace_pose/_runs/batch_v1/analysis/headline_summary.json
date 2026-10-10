@@ -1,0 +1,10 @@
+{
+  "n_total": 6007,
+  "n_manufacturing": 4001,
+  "n_eldercare": 1006,
+  "n_logistics": 1000,
+  "rula_mean": 3.436657233227901,
+  "reba_mean": 2.945397036790411,
+  "owas_mean_action": 1.3833860496087897,
+  "kpt_conf_mean": 0.627449470797136
+}

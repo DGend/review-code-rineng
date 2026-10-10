@@ -1,0 +1,77 @@
+{
+  "T16_efficiency_max_residual_owas": 4.440892098500626e-16,
+  "T16_efficiency_max_residual_rula": 8.881784197001252e-15,
+  "T16_efficiency_max_residual_reba": 5.329070518200751e-15,
+  "T16_efficiency_exact_zero_fraction_owas": 0.8445544554455445,
+  "T16_efficiency_exact_zero_fraction_rula": 0.033663366336633666,
+  "T16_efficiency_exact_zero_fraction_reba": 0.3584158415841584,
+  "T17_dummy_swept_max_shap_owas": 0.0,
+  "T17_dummy_swept_max_shap_rula": 0.0,
+  "T17_dummy_swept_max_shap_reba": 0.0,
+  "T18_symmetry_distinct_values_max_dev": 9.999999999999998,
+  "additivity_independent_max_dev_owas": 1.7763568394002505e-15,
+  "additivity_independent_max_dev_rula": 1.9539925233402755e-14,
+  "additivity_independent_max_dev_reba": 1.2434497875801753e-14,
+  "cross_impl_per_seed_max_disagree_owas": [
+    0.1419999999999999,
+    0.12200000000000011,
+    0.1326666666666665,
+    0.08800000000000008,
+    0.09066666666666667
+  ],
+  "cross_impl_sd_owas": 0.022159263276312884,
+  "cross_impl_sd_rula": 0.02690261153014825,
+  "cross_impl_sd_reba": 0.02935610397167766,
+  "mc_sanity_owas_median_disagree_500": 0.016000000000000014,
+  "mc_sanity_owas_median_disagree_5000": 0.004066666666666691,
+  "mc_sanity_owas_observed_shrink_factor": 3.934426229508177,
+  "mc_sanity_expected_shrink_factor": 0.31622776601683794,
+  "monotonicity_owas_exhaustive_inc_violations": 82,
+  "monotonicity_owas_exhaustive_inc_checks": 741,
+  "monotonicity_owas_exhaustive_inc_rate": 0.1106612685560054,
+  "monotonicity_owas_exhaustive_dec_violations": 82,
+  "monotonicity_owas_exhaustive_dec_checks": 741,
+  "monotonicity_owas_exhaustive_dec_rate": 0.1106612685560054,
+  "monotonicity_owas_per_axis_inc_violations": {
+    "legs": 47,
+    "back": 35
+  },
+  "monotonicity_owas_per_axis_inc_checks": {
+    "back": 189,
+    "arms": 168,
+    "legs": 216,
+    "load": 168
+  },
+  "monotonicity_owas_per_axis_dec_violations": {
+    "legs": 47,
+    "back": 35
+  },
+  "monotonicity_owas_per_axis_dec_checks": {
+    "load": 168,
+    "legs": 216,
+    "arms": 168,
+    "back": 189
+  },
+  "monotonicity_random_pooled_owas": 0.11528737569526377,
+  "monotonicity_random_pooled_rula": 0.0,
+  "monotonicity_random_pooled_reba": 0.0,
+  "monotonicity_random_checks_owas": 5933,
+  "monotonicity_random_checks_rula": 9830,
+  "monotonicity_random_checks_reba": 8461,
+  "monotonicity_random_per_seed_owas": [
+    0.11336717428087986,
+    0.12563667232597622,
+    0.12437395659432388,
+    0.11252115059221658,
+    0.10058675607711651
+  ],
+  "owas_wilson_95_lo": 0.10595580473219947,
+  "owas_wilson_95_hi": 0.12917765685381047,
+  "seeds": [
+    20260808,
+    20260809,
+    20260810,
+    20260811,
+    20260812
+  ]
+}

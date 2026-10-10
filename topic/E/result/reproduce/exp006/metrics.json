@@ -1,0 +1,48 @@
+{
+  "n_total_rows": 6007,
+  "n_kept_nonnull": 6007,
+  "n_dropped_null": 0,
+  "pearson_r_overall": 0.9791709206330719,
+  "r_ci95_low": 0.9781019196552733,
+  "r_ci95_high": 0.9801882587393552,
+  "dse_L5S1_mean_Nm": 36.08860411238937,
+  "dse_L5S1_range_Nm": [
+    0.0078432510332699,
+    160.79204183307553
+  ],
+  "biomech_L5S1_mean_Nm": 40.24327032094306,
+  "biomech_L5S1_range_Nm": [
+    0.0457766157423647,
+    171.6261550279825
+  ],
+  "per_domain": {
+    "eldercare": {
+      "n": 1006,
+      "pearson_r": 0.9667441640419947,
+      "r_ci95_low": 0.9624446717678227,
+      "r_ci95_high": 0.97055881680994,
+      "dse_mean_Nm": 33.918262035875905,
+      "biomech_mean_Nm": 38.91962573112055
+    },
+    "logistics": {
+      "n": 1000,
+      "pearson_r": 0.9680467932384791,
+      "r_ci95_low": 0.9638994413399921,
+      "r_ci95_high": 0.9717245435040895,
+      "dse_mean_Nm": 31.02381635347609,
+      "biomech_mean_Nm": 32.80456801208888
+    },
+    "manufacturing": {
+      "n": 4001,
+      "pearson_r": 0.9841390382822994,
+      "r_ci95_low": 0.9831331733152533,
+      "r_ci95_high": 0.9850853689259574,
+      "dse_mean_Nm": 37.90018918809189,
+      "biomech_mean_Nm": 42.43529450645059
+    }
+  },
+  "inputs": {
+    "dense_spine": "ace_pose/_runs/batch_v1/analysis/dense_spine.csv",
+    "summary_xw": "ace_pose/_runs/batch_v1/summary_with_xw.csv"
+  }
+}

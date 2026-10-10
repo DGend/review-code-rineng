@@ -1,0 +1,8 @@
+{
+  "datasets": {
+    "expert_pilot_22": {
+      "path": "public/expert_pilot_22/expert_pilot_scores.csv",
+      "note": "independent expert scores of 22 images; added once the expert consents to release"
+    }
+  }
+}

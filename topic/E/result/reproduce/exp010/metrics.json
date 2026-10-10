@@ -1,0 +1,96 @@
+{
+  "method": "RULA grand score, eldercare vs manufacturing, E-CD3 margin +/-0.5",
+  "cluster_key_note": "Clustered on (factory_id, worker_id). An earlier version of this script clustered on worker_id alone, which is locally re-numbered per factory in this dataset and merged distinct workers across factories who share a small integer id (e.g. F1 worker 1 and F2 worker 1 are different people). That version undercounted manufacturing clusters as 12 instead of the true 38.",
+  "n_workers": {
+    "manufacturing": 43,
+    "eldercare": 4
+  },
+  "poses_per_worker": {
+    "manufacturing": {
+      "1_1": 1151,
+      "1_2": 36,
+      "1_3": 37,
+      "1_4": 2,
+      "1_5": 592,
+      "1_6": 1,
+      "2_1": 547,
+      "2_10": 53,
+      "2_11": 9,
+      "2_2": 28,
+      "2_3": 25,
+      "2_4": 13,
+      "2_5": 2,
+      "2_6": 2,
+      "2_7": 28,
+      "2_8": 14,
+      "2_9": 17,
+      "3_1": 244,
+      "3_2": 123,
+      "3_3": 203,
+      "3_4": 331,
+      "3_5": 32,
+      "3_6": 2,
+      "3_8": 3,
+      "4_1": 7,
+      "4_2": 115,
+      "4_3": 66,
+      "4_4": 10,
+      "4_5": 1,
+      "5_1": 77,
+      "5_2": 116,
+      "5_3": 6,
+      "5_4": 24,
+      "5_5": 48,
+      "5_6": 13,
+      "5_7": 10,
+      "5_8": 13,
+      "7_1": 6,
+      "7_5": 273,
+      "7_6": 262,
+      "7_7": 140,
+      "7_8": 295,
+      "7_9": 24
+    },
+    "eldercare": {
+      "6_1": 373,
+      "6_2": 112,
+      "6_3": 242,
+      "6_4": 279
+    }
+  },
+  "mean_diff_eldercare_minus_manufacturing": -0.29524790866876316,
+  "naive_pose_level_bootstrap": {
+    "n_boot": 1000,
+    "se": 0.03388778920482212,
+    "ci95": [
+      -0.361825552384553,
+      -0.2258466596939062
+    ],
+    "tost": {
+      "t_lower": 6.042061053133006,
+      "t_upper": 23.46709323119851,
+      "p_lower": 7.60789320430888e-10,
+      "p_upper": 0.0,
+      "p_tost": 7.60789320430888e-10,
+      "equivalent_at_0.05": true
+    }
+  },
+  "worker_clustered_bootstrap": {
+    "n_boot": 1000,
+    "se": 0.13190152180951292,
+    "ci95": [
+      -0.5204597210241138,
+      -0.000172242742452134
+    ],
+    "tost": {
+      "t_lower": 1.5523103033407901,
+      "t_upper": 6.0291033625618775,
+      "p_lower": 0.06029399688564885,
+      "p_upper": 8.243590254863875e-10,
+      "p_tost": 0.06029399688564885,
+      "equivalent_at_0.05": false
+    }
+  },
+  "ci_width_inflation_clustered_over_naive": 3.8262370577271896,
+  "interpretation": "Eldercare arm is 2 workers (n=485, n=521 poses); worker-clustered bootstrap resamples only 2 clusters, so its CI reflects between-worker variance estimated from n=2 and is not a stable basis for a population equivalence claim. Reported for R-CD3 delta-disclosure; not proposed as a defensible equivalence test for eldercare at large."
+}

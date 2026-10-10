@@ -1,0 +1,8 @@
+model,pose_gpu_ms,scoring_ms,image_plane_total_ms,lift3d_cpu_ms_median,with_lift3d_total_ms
+rtmw3d,34.4,0.4,34.8,3350.5,3385.3
+rtmw,31.1,0.4,31.5,3350.5,3382.0
+rtmpose,37.7,0.4,38.1,3350.5,3388.6
+rtmo,9.9,0.4,10.3,3350.5,3360.8
+vitpose,35.4,0.4,35.8,3350.5,3386.3
+detrpose_l,62.8,0.4,63.2,3350.5,3413.7
+detrpose_x,67.9,0.4,68.3,3350.5,3418.8

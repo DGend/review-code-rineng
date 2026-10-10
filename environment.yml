@@ -1,0 +1,27 @@
+# Environment used for the results in the paper (CPU is sufficient for everything
+# except optional fast pose inference). Create with:
+#   conda env create -f environment.yml && conda activate bioera
+name: bioera
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - pip
+  - pip:
+      - --extra-index-url https://download.pytorch.org/whl/cpu
+      - numpy==2.2.6
+      - pandas==2.3.3
+      - scipy==1.16.3
+      - matplotlib==3.10.8
+      - scikit-learn==1.8.0
+      - statsmodels==0.14.6
+      - pyarrow==22.0.0
+      - pillow==12.0.0
+      - opencv-python==4.10.0.84
+      - opencv-contrib-python==4.10.0.84   # rtmlib requires both; pin to the version used
+      - torch==2.10.0
+      - onnxruntime==1.26.0
+      - rtmlib==0.0.15
+      - pytest==9.0.2
+      # optional: vision-language-model context backend (Section 3.9)
+      # - transformers==4.57.6

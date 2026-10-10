@@ -1,0 +1,4 @@
+model,n_images,mean_conf_mean,mean_conf_sd,pct_visible_mean,pct_visible_sd,wall_ms_mean,n_persons_mean
+Body (COCO-17),7,0.76,0.06,93.28,6.29,194.61,2.0
+BodyWithFeet (Halpe-26),7,0.77,0.09,91.93,10.17,221.34,2.0
+Wholebody3d → BIOERA-25,7,0.68,0.09,87.58,16.35,543.88,2.0

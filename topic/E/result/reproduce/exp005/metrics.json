@@ -1,0 +1,118 @@
+{
+  "per_row": [
+    {
+      "domain": "eldercare",
+      "method": "owas",
+      "n": 201,
+      "ece_before": 0.02199937810945276,
+      "ece_after": 0.011098007954175163,
+      "ece_delta_abs": 0.010901370155277597,
+      "ece_delta_rel": 0.4955308327826532,
+      "temperature": 0.5
+    },
+    {
+      "domain": "eldercare",
+      "method": "reba",
+      "n": 201,
+      "ece_before": 0.1433457711442786,
+      "ece_after": 0.05721318603155036,
+      "ece_delta_abs": 0.08613258511272824,
+      "ece_delta_rel": 0.6008728714154752,
+      "temperature": 0.5
+    },
+    {
+      "domain": "eldercare",
+      "method": "rula",
+      "n": 201,
+      "ece_before": 0.1339396766169154,
+      "ece_after": 0.05928609234776662,
+      "ece_delta_abs": 0.07465358426914877,
+      "ece_delta_rel": 0.5573672130228264,
+      "temperature": 0.5
+    },
+    {
+      "domain": "logistics",
+      "method": "owas",
+      "n": 200,
+      "ece_before": 0.017578125000000014,
+      "ece_after": 0.008138832151889803,
+      "ece_delta_abs": 0.00943929284811021,
+      "ece_delta_rel": 0.5369908820258249,
+      "temperature": 0.5
+    },
+    {
+      "domain": "logistics",
+      "method": "reba",
+      "n": 200,
+      "ece_before": 0.14898437499999997,
+      "ece_after": 0.07520269468426705,
+      "ece_delta_abs": 0.07378168031573293,
+      "ece_delta_rel": 0.49523099530224524,
+      "temperature": 0.5
+    },
+    {
+      "domain": "logistics",
+      "method": "rula",
+      "n": 200,
+      "ece_before": 0.121171875,
+      "ece_after": 0.04539649263024329,
+      "ece_delta_abs": 0.0757753823697567,
+      "ece_delta_rel": 0.6253545418007,
+      "temperature": 0.5
+    },
+    {
+      "domain": "manufacturing",
+      "method": "owas",
+      "n": 800,
+      "ece_before": 0.02482421874999997,
+      "ece_after": 0.011206653118133581,
+      "ece_delta_abs": 0.013617565631866389,
+      "ece_delta_rel": 0.5485596855637765,
+      "temperature": 0.5
+    },
+    {
+      "domain": "manufacturing",
+      "method": "reba",
+      "n": 800,
+      "ece_before": 0.11325195312500003,
+      "ece_after": 0.0493267674744129,
+      "ece_delta_abs": 0.06392518565058714,
+      "ece_delta_rel": 0.56445106584635,
+      "temperature": 0.5
+    },
+    {
+      "domain": "manufacturing",
+      "method": "rula",
+      "n": 800,
+      "ece_before": 0.11783203125,
+      "ece_after": 0.04816050764173267,
+      "ece_delta_abs": 0.06967152360826732,
+      "ece_delta_rel": 0.5912783041178994,
+      "temperature": 0.5
+    }
+  ],
+  "aggregates": {
+    "owas": {
+      "n": 1201,
+      "ece_before_weighted": 0.023144775187343865,
+      "ece_after_weighted": 0.010677592442692783,
+      "ece_delta_abs_weighted": 0.012467182744651082,
+      "ece_delta_rel_weighted": 0.5386607838588315
+    },
+    "rula": {
+      "n": 1201,
+      "ece_before_weighted": 0.1210839925062448,
+      "ece_after_weighted": 0.04956220582958858,
+      "ece_delta_abs_weighted": 0.07152178667665621,
+      "ece_delta_rel_weighted": 0.5906791244347805
+    },
+    "reba": {
+      "n": 1201,
+      "ece_before_weighted": 0.1242389154870941,
+      "ece_after_weighted": 0.054955706335325025,
+      "ece_delta_abs_weighted": 0.06928320915176908,
+      "ece_delta_rel_weighted": 0.5576610909724674
+    }
+  },
+  "input_path_basename": "c4_calibration_report.csv"
+}

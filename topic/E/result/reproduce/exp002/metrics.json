@@ -1,0 +1,21 @@
+{
+  "T01_owas_wrong_cells": 4,
+  "T02_rula_tableA_wrong_cells_of_144": 0,
+  "T02_rula_tableA_total_cells": 144,
+  "rula_tableB_wrong_cells": 0,
+  "rula_tableC_wrong_cells": 0,
+  "reba_tableA_wrong_cells": 0,
+  "reba_tableB_wrong_cells": 0,
+  "reba_tableC_wrong_cells": 0,
+  "total_wrong_cells": 4,
+  "total_cells_audited": 764,
+  "v2_source": "ace_pose/ergo_v2/tables.py (verbatim from standards specs)",
+  "v1_source": "ace_pose/ergo/{owas,rula,reba}.py (ETRI ewhse legacy)",
+  "reference_standards": [
+    "karhu1977owas",
+    "louhevaara1992owas",
+    "mcatamney1993rula",
+    "mcatamney2004rula",
+    "hignett2000reba"
+  ]
+}
