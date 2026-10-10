@@ -2,8 +2,8 @@
 """3D skeletons of cohort workers from the range-of-motion-constrained fit (Supplementary S9).
 
 For each example image: the image with the worker's 2D keypoints (face pixelated first), and the
-fitted 3D skeleton seen from the front (the subject's left on the viewer's right) and from the
-side (facing right), heading removed, y up. Every solution
+fitted 3D skeleton drawn in perspective on a floor grid, from an oblique and from a side
+viewpoint (heading removed, y up). Every solution
 the fit keeps is drawn, the best in colour and the others in grey, so a pose the image leaves
 ambiguous shows as diverging grey skeletons. The 3D joints of every kept solution are saved as
 JSON next to the figure, so the reconstruction can be reused.
@@ -48,17 +48,40 @@ def default_stems():
     return [idx[idx.factory == f].file_stem.iloc[0] for f in ("F1", "F6", "F7")]
 
 
-def draw(ax, j, axis, color, lw, alpha):
+def draw3d(ax, j, color, lw, alpha, joints=False):
+    """Skeleton on a 3D axis: x (subject's left) -> X, z (forward) -> Y, y (up) -> Z."""
+    X, Y, Z = j[:, 0], j[:, 2], j[:, 1]
     for a, b in EDGES:
         c = color if color != "auto" else ("tab:blue" if (a, b) in LEFT else "tab:red")
-        ax.plot([j[a, axis], j[b, axis]], [j[a, 1], j[b, 1]], color=c, lw=lw, alpha=alpha, solid_capstyle="round")
+        ax.plot([X[a], X[b]], [Y[a], Y[b]], [Z[a], Z[b]], color=c, lw=lw, alpha=alpha, solid_capstyle="round")
+    if joints:
+        used = sorted({i for e in EDGES for i in e})
+        ax.scatter(X[used], Y[used], Z[used], s=14, c="k", depthshade=True)
+
+
+def setup3d(ax, j, elev, azim, title):
+    floor = j[:, 1].min()
+    g = np.linspace(-0.5, 0.5, 6)
+    for v in g:
+        ax.plot([v, v], [-0.5, 0.5], [floor, floor], color="0.85", lw=0.6)
+        ax.plot([-0.5, 0.5], [v, v], [floor, floor], color="0.85", lw=0.6)
+    ax.set_xlim(-0.5, 0.5)
+    ax.set_ylim(-0.5, 0.5)
+    ax.set_zlim(floor, floor + 1.0)
+    ax.set_box_aspect((1, 1, 1))
+    ax.view_init(elev=elev, azim=azim)
+    ax.set_xticks([]); ax.set_yticks([]); ax.set_zticks([])
+    ax.set_axis_off()
+    ax.set_title(title, fontsize=9)
 
 
 def main(stems):
     OUT.mkdir(parents=True, exist_ok=True)
     summ = pd.read_csv(BATCH / "summary.csv").set_index("file_stem")
-    fig, axes = plt.subplots(len(stems), 3, figsize=(10, 3.6 * len(stems)), gridspec_kw={"width_ratios": [1.4, 1, 1]})
-    axes = np.atleast_2d(axes)
+    fig = plt.figure(figsize=(11, 3.9 * len(stems)))
+    gs = fig.add_gridspec(len(stems), 3, width_ratios=[1.1, 1.2, 1.2])
+    axes = [[fig.add_subplot(gs[r, 0]), fig.add_subplot(gs[r, 1], projection="3d"),
+             fig.add_subplot(gs[r, 2], projection="3d")] for r in range(len(stems))]
     up = np.array([0.0, 1.0, 0.0])
     for row, stem in zip(axes, stems):
         z = np.load(BATCH / "details" / f"{stem}.npz")
@@ -92,21 +115,16 @@ def main(stems):
         row[0].axis("off")
         f = summ.at[stem, "factory_id"] if "factory_id" in summ.columns else ""
         row[0].set_title(f"{DOMAIN.get(f'F{int(f)}', '')} image, 2D keypoints", fontsize=9)
-        for ax, axis, name in ((row[1], 0, "front"), (row[2], 2, "side")):
+        jb = fit.body_joints[best]
+        for ax, elev, azim, name in ((row[1], 18, -60, "3D, oblique view"), (row[2], 8, 0, "3D, side view")):
+            setup3d(ax, jb, elev, azim, name)
             for i, j in enumerate(fit.body_joints):
                 if i != best:
-                    draw(ax, j, axis, "0.7", 1.5, 0.8)
-            jb = fit.body_joints[best]
-            draw(ax, jb, axis, "auto", 2.5, 1.0)
-            ax.set_aspect("equal")
-            ax.set_xlim(-0.5, 0.5)
-            ax.set_ylim(-0.72, 0.5)
-            ax.set_xticks([])
-            ax.set_yticks([])
-            ax.set_title(f"3D, {name} view", fontsize=9)
+                    draw3d(ax, j, "0.6", 1.2, 0.35)
+            draw3d(ax, jb, "auto", 2.6, 1.0, joints=True)
         mb = meas[best]
         tf = [d["trunk_flexion"] for d in meas]
-        row[2].text(0.02, 0.02, f"trunk flexion {mb['trunk_flexion']:.0f} deg (kept: {min(tf):.0f} to {max(tf):.0f})\n"
+        row[2].text2D(0.02, 0.0, f"trunk flexion {mb['trunk_flexion']:.0f} deg (kept: {min(tf):.0f} to {max(tf):.0f})\n"
                     f"upper-arm abduction R {mb['upper_arm_abduction_r']:.0f}, L {mb['upper_arm_abduction_l']:.0f} deg\n"
                     f"{len(fit.body_joints)} solution(s) kept", transform=row[2].transAxes, fontsize=7, va="bottom")
         print(f"{stem}: {len(fit.body_joints)} solutions, trunk flexion {mb['trunk_flexion']:.0f} ({min(tf):.0f}-{max(tf):.0f})")
