@@ -59,7 +59,8 @@ with the reason.
 | `topic/E/src/` | Analyses and figures of this manuscript, `reproduce.sh`, and the number check |
 | `topic/E/src/fig_expert_load_fix.py`, `fig_expert_comparison.py` | Expert pilot: code-correction stages (Table 5) and confusion matrices (Fig. 13) |
 | `topic/E/src/eval_action_agreement*.py` | Action-level agreement (confusion matrices, accuracy, F1, kappa) against the expert and against the dataset annotations, with the frozen 80/20 split |
-| `topic/E/src/select_heldout_images.py` | Draws and freezes the held-out images for the second expert round |
+| `topic/E/src/select_heldout_images.py` | Draws and freezes 36 images that were reserved for a second expert round; that round did not take place and no expert has scored them |
+| `topic/E/src/exp_r2_*.py`, `topic/E/tests/test_exp_r2_*.py`, `topic/E/tools/build_r2_summaries.py` | Analyses added in the second revision: comparison against annotation-derived scores on worker-grouped folds, perturbation-model validation, Monte Carlo sensitivity, measured-residual resampling, selective acceptance, fusion comparison, assumed-input scenarios, and agreement indices for the expert comparison |
 | `topic/D/src/` | Heuristic vs vision-language-model comparison on 50 images (Section 4.8) |
 | `ace_pose/_runs/batch_v1/` | Derived per-pose data (below) |
 
@@ -81,13 +82,17 @@ access terms, so they are not included. This repository contains data derived fr
 - `topic/E/result/reproduce/*/metrics.json`: the experiment outputs the paper reports.
 - `topic/E/result/action_agreement/`: per-image action levels from the annotated and the estimated
   keypoints (`per_image_labels.csv`), the metrics, and the frozen 20% evaluation list with its SHA-256.
-- `topic/E/result/heldout_selection/`: the 36 held-out images for the second expert round, drawn and
-  frozen (SHA-256 alongside) before the corrections of Section 4.9 were made.
+- `topic/E/result/heldout_selection/`: the list of 36 images reserved for a second expert round, drawn and
+  frozen (SHA-256 alongside) before the corrections of Section 4.9 were made. The round did not take place:
+  no expert has scored these images and the manuscript does not use them. The list is kept so that the
+  record stays unchanged.
+- `topic/E/result/exp-r2-*/`: metrics and tables of the second-revision analyses (files under 1 MB).
+  The per-image table of the expert comparison is withheld with the expert's scores.
 
 Steps that need the images (pose inference, the guarded-fusion panel, the backbone
 comparison, figure overlays, the vision-language-model run) are run with
 `reproduce.sh --images` after downloading the dataset and setting `BIOERA_DATA_ROOT` to the
-folder that holds `new_images/` and `new_json/`. With the dataset's `data_v5.csv` in that folder,
+folder that holds `new_images/` and `new_json/`. With `data_v5.csv` in that folder (a table of the per-image JSON labels in `new_json/`, one row per annotated person; we checked that all 7,199 rows are identical to the JSON annotations),
 `eval_action_agreement.py` recomputes the per-image levels from the annotations; without it, it
 recomputes the metrics from the shipped `per_image_labels.csv`.
 

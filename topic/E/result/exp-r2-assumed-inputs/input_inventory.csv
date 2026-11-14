@@ -1,0 +1,39 @@
+method,input,cls,cohort_value,location
+OWAS,trunk flexion/twist/lateral (back code),observed,computed from shoulders/hips; z dropped (2D image plane),ace_pose/ergo_v2/owas.py:115-117
+OWAS,arms above shoulder (arm code),observed,computed from wrists/shoulders,ace_pose/ergo_v2/owas.py:120
+OWAS,"knee flexion, balance, kneeling, sitting (leg code)",observed,computed from hips/knees/ankles,ace_pose/ergo_v2/owas.py:123-127
+OWAS,walking (leg code 7),caller-supplied,False (rescore_batch.py:46),ace_pose/ergo_v2/owas.py:97
+OWAS,load_kg (load code),caller-supplied,0.0 kg -> code 1 (context_policy.py:36),"ace_pose/ergo_v2/owas.py:96,134-139"
+OWAS,world_up,caller-supplied,"[0,-1,0], image up-axis (rescore_batch.py:45)",ace_pose/ergo_v2/owas.py:98
+RULA,upper-arm flexion and abduction,observed,computed from shoulder/elbow/hip,ace_pose/ergo_v2/rula.py:131-132
+RULA,lower-arm (elbow) flexion,observed,computed from shoulder/elbow/wrist,ace_pose/ergo_v2/rula.py:133
+RULA,forearm across midline / out to side (+1),observed,computed,ace_pose/ergo_v2/rula.py:145
+RULA,wrist flexion,assumed,"not computable: wrist_flexion_deg() always returns None (no finger keypoints), so wrist = 1 (neutral)","ace_pose/ergo_v2/angles.py:372-375,367-369;ace_pose/ergo_v2/rula.py:149"
+RULA,"trunk flexion, twist, lateral",observed,computed from shoulders/hips; z dropped,ace_pose/ergo_v2/rula.py:163
+RULA,"neck flexion, twist, lateral",observed,computed from ears (else eyes)/shoulders,ace_pose/ergo_v2/rula.py:166
+RULA,"legs (balance, knee flexion, sitting)",observed,computed; legs_supported=None means auto,ace_pose/ergo_v2/rula.py:180
+RULA,legs_supported override,caller-supplied,"None (auto, observed)",ace_pose/ergo_v2/pipeline.py:26
+RULA,shoulder_raised (+1),assumed,False,ace_pose/ergo_v2/rula.py:138
+RULA,upper_arm_supported (-1),assumed,False,ace_pose/ergo_v2/rula.py:140
+RULA,wrist_deviation (+1),assumed,False,ace_pose/ergo_v2/rula.py:150
+RULA,load_kg (force/load score),caller-supplied,0.0 kg (context_policy.py:36),ace_pose/ergo_v2/rula.py:158
+RULA,shock,caller-supplied,False,ace_pose/ergo_v2/rula.py:158
+RULA,world_up,caller-supplied,"[0,-1,0]",ace_pose/ergo_v2/rula.py:163
+REBA,upper-arm flexion and abduction,observed,computed from shoulder/elbow/hip,ace_pose/ergo_v2/reba.py:130-131
+REBA,lower-arm (elbow) flexion,observed,computed from shoulder/elbow/wrist,ace_pose/ergo_v2/reba.py:132
+REBA,wrist flexion,assumed,"not computable: wrist_flexion_deg() always returns None (no finger keypoints), so wrist = 1 (neutral)","ace_pose/ergo_v2/angles.py:372-375,367-369;ace_pose/ergo_v2/reba.py:168"
+REBA,"trunk flexion, twist, lateral",observed,computed from shoulders/hips; z dropped,ace_pose/ergo_v2/reba.py:136
+REBA,"neck flexion, twist, lateral",observed,computed from ears (else eyes)/shoulders,ace_pose/ergo_v2/reba.py:139
+REBA,"legs (balance, knee flexion, sitting)",observed,computed; legs_supported=None means auto,ace_pose/ergo_v2/reba.py:153
+REBA,legs_supported override,caller-supplied,"None (auto, observed)",ace_pose/ergo_v2/pipeline.py:26
+REBA,shoulder_raised (+1),assumed,False,ace_pose/ergo_v2/reba.py:161
+REBA,upper_arm_supported (-1),assumed,False,ace_pose/ergo_v2/reba.py:163
+REBA,wrist_deviation (+1),assumed,False,ace_pose/ergo_v2/reba.py:169
+REBA,load_kg (force/load score),caller-supplied,0.0 kg (context_policy.py:36),ace_pose/ergo_v2/reba.py:156
+REBA,shock,caller-supplied,False,ace_pose/ergo_v2/reba.py:156
+REBA,world_up,caller-supplied,"[0,-1,0]",ace_pose/ergo_v2/reba.py:136
+RULA,wrist twist,assumed,1 (WRIST_TWIST_DEFAULT_RULA); wrist_twist_at_end False,ace_pose/ergo_v2/rula.py:153-154;ace_pose/ergo_v2/angles.py:368
+RULA,static_minute / repetitive_4_per_min (muscle use),caller-supplied,False / False (task_context static_or_repeated=false),ace_pose/ergo_v2/rula.py:157
+RULA,load_repeated (force/load),caller-supplied,False (context_policy.py:36),ace_pose/ergo_v2/rula.py:158
+REBA,coupling,assumed,"1 (Fair), pipeline default",ace_pose/ergo_v2/reba.py:173;ace_pose/ergo_v2/pipeline.py:25
+REBA,activity: static / repetitive / rapid,caller-supplied,False / False / False (static from task_context),ace_pose/ergo_v2/reba.py:177;ace_pose/ergo_v2/pipeline.py:73-75

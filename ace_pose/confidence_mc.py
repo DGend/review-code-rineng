@@ -41,9 +41,12 @@ from ace_pose.ergo_v2.result import ErgoResult
 # ----------------------------------------------------------------------
 
 # σ_max as a fraction of `ref_length` (max of shoulder/hip/torso). The
-# default 0.04 is calibrated to match the empirical 95 % keypoint-error
-# quantile we observe on RTMW3D-x at our 6,007-image domain (validated
-# separately during C3 calibration).
+# default 0.04 is a conventional choice, not fitted to measured keypoint
+# error: against human-annotated keypoints the measured error (robust SD)
+# is about five times the assumed SD (median over joints; topic/E
+# result/exp-r2-perturbation-validation). The Monte Carlo output is
+# therefore a sensitivity (verdict stability) to a stated perturbation,
+# not a validated estimate of pose uncertainty.
 DEFAULT_SIGMA_FRACTION = 0.04
 
 

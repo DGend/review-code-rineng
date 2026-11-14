@@ -402,8 +402,8 @@ def legs_balanced(pose: Major25Pose, frame: BodyFrame) -> bool:
     so bilateral (balanced) support is assumed, like the OWAS walking flag;
     RULA/REBA callers can override via ``legs_supported``.
 
-    The earlier ankle-symmetry heuristic labelled 84% of the cohort as
-    one-legged, because the body frame's lateral axis is unstable in side
+    The earlier ankle-symmetry heuristic gave a one-legged legs code to 4,086 of
+    the 6,007 cohort poses (68%), because the body frame's lateral axis is unstable in side
     views; it disagreed with the project ergonomist on 6 of 6 straight-legged
     standing poses it flagged (see standards/owas.md §2.3, 2026-10-05 note).
     """

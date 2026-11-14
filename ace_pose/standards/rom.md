@@ -74,7 +74,7 @@ prior for standing work: a held load or walking legitimately moves the centre of
 
 ## Open
 
-The four assumption rows (shoulder extension and cross-body adduction, hip extension, hip
+The five assumption rows (shoulder extension and cross-body adduction, hip extension, hip
 adduction, hip rotation) need a source that gives one value for all sexes and ages. The
 CDC reference study (Soucie et al., Haemophilia 2010) measured hip extension but reports it by
 sex and age group only. Candidates not yet read in the original: AAOS, Joint Motion: Method of

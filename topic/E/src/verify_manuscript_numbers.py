@@ -21,6 +21,7 @@ import subprocess
 import sys
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 from scipy.stats import kruskal, mannwhitneyu
 from statsmodels.stats.proportion import proportion_confint
@@ -85,6 +86,9 @@ def check(where, needle, value, ok=True):
                      verdict="MATCH" if good else "MISMATCH"))
 
 
+W = "zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen".split()  # number words as the manuscript spells them
+
+
 def wilson(k, n):
     lo, hi = proportion_confint(k, n, method="wilson")
     return f"[{100*lo:.1f}, {100*hi:.1f}]"
@@ -126,7 +130,30 @@ for fid, n in s.factory_id.value_counts().sort_index().items():
 proc = s.process_id.value_counts()
 check("09.supplementary.md", "Sasang-1 (n = 1,947", f"{proc[1]:,}", proc[1] == 1947)
 check("09.supplementary.md", "Weld-1 (n = 619", f"{proc[7]}", proc[7] == 619)
+px = s.groupby(["img_w", "img_h"]).factory_id.agg(lambda x: sorted(set(x)))
+big = s[(s.img_w == 3840) & (s.img_h == 2160)]
+check("03.methods.md", f"(3840 x 2160 at F1-F5; 2704 x 1520 or 1920 x 1080 at F6 and F7)", f"3840x2160 on F{sorted(set(big.factory_id))}, {len(big):,} images; others {px.drop((3840, 2160)).to_dict()}",
+      sorted(set(big.factory_id)) == [1, 2, 3, 4, 5] and len(big) == 4001 and set(px.index) == {(3840, 2160), (2704, 1520), (1920, 1080)}
+      and all(set(v) <= {6, 7} for k, v in px.items() if k != (3840, 2160)))
 check("09.supplementary.md", "Images were collected for 16", str(s.process_id.nunique()), s.process_id.nunique() == 16)
+check("00.abstract.md", f"({len(s):,} images across {W[s.factory_id.nunique()]} Korean workplaces", "data availability paragraph")
+rg = s.groupby(dom).factory_id.agg(["min", "max"])
+fr = {k: f"F{r['min']}" + (f"-F{r['max']}" if r["max"] != r["min"] else "") for k, r in rg.iterrows()}
+envs = f"(Manufacturing {fr['m']}, Eldercare {fr['e']}, Logistics {fr['l']})"
+check("04.results.md", f"high-risk pose from each of the {W[s.factory_id.nunique()]} Busan workplaces (F", "Fig. 3 text: workplaces")
+check("04.results.md", f"One representative high-risk pose from each of the {W[s.factory_id.nunique()]} workplaces (F{s.factory_id.min()}-F{s.factory_id.max()})", "Fig. 3 caption")
+check("04.results.md", f"across three risk tiers per work environment {envs}", "Fig. 4 text: domain ranges")
+check("04.results.md", f"across the three work domains {envs}", "Fig. 6 caption: domain ranges")
+check("06.conclusion.md", f"with {W[s[s.factory_id == 6].worker_id.nunique()]} caregivers at one site", "eldercare workers")
+# Fig. 3 text: 133 WholeBody keypoints minus 42 hand points; the retained groups follow the COCO-WholeBody layout
+n133 = np.load(next((BATCH / "details").glob("*.npz")))["kpts3d_133"].shape[0]
+n_body, n_feet, n_face = 17, 6, 68
+check("04.results.md", f"overlaying the {n_body + n_feet + n_face} retained RTMW3D keypoints (body {n_body} + feet {n_feet} + face {n_face} for head-reference visualisation; hands {n133 - n_body - n_feet - n_face} excluded)",
+      "retained keypoints", n133 == 133)
+sys.path.insert(0, str(ROOT))
+from ace_pose.disc_load import NIOSH_AL_N, NIOSH_MPL_N  # noqa: E402
+check("04.results.md", f"below the Action Limit of {NIOSH_AL_N:,.0f} N", "NIOSH AL")
+check("04.results.md", f"at or above the Maximum Permissible Limit of {NIOSH_MPL_N:,.0f} N", "NIOSH MPL")
 
 # --- standards cross-check (Section 4.2, Table 1) ------------------------------
 section("standards")
@@ -135,8 +162,11 @@ import exp002_standards_audit as audit  # noqa: E402
 ow = audit.diff_owas()
 total = sum(f()["total_cells"] for f in (audit.diff_owas, audit.diff_rula_A, audit.diff_rula_B, audit.diff_rula_C,
                                          audit.diff_reba_A, audit.diff_reba_B, audit.diff_reba_C))
-check("03.methods.md", f"Of {total} cells", "cells audited")
-check("03.methods.md", f"{ow['wrong_cells']} of {ow['total_cells']} OWAS Action-Category cells", "OWAS cells differing")
+check("03.methods.md", f"({total} cells; Section 4.2", "cells audited")
+check("04.results.md", f"| OWAS Action Category ({ow['total_cells']} cells) | {ow['wrong_cells']} |", "OWAS cells differing")
+check("04.results.md", f"covering all {ow['total_cells']} OWAS Action-Category cells, all {audit.diff_rula_A()['total_cells']} RULA Table-A cells, and the RULA Table B/C and REBA Table A/B/C cells ({total} cells in total)",
+      "Table 3 paragraph: audited cells")
+check("04.results.md", f"The {ow['wrong_cells']} OWAS cells (back 1 / arms 3 / legs 7", "OWAS cells still differing")
 codes = {tuple(d["code"]) for d in ow["diffs"]}
 n_in = int(s[["owas_back", "owas_arms", "owas_legs", "owas_load"]].apply(tuple, axis=1).isin(codes).sum())
 check("04.results.md", "None (no cohort pose falls in these cells)", f"{n_in} cohort poses in the differing OWAS cells", n_in == 0)
@@ -165,11 +195,14 @@ section("ranking")
 xw = pd.read_csv(BATCH / "summary_with_xw.csv")
 g = xw.groupby("process_label").reba_grand.agg(["mean", "size"])
 top = g[g["size"] >= 30].sort_values("mean", ascending=False)["mean"].head(8).round(2).tolist()
-for v in top:
-    check("04.results.md", f"{v:.2f})", f"top-8 process mean REBA {v:.2f}")
+for k_, v in enumerate(top):
+    check("04.results.md", f"(REBA {v:.2f};" if k_ == 0 else f"({v:.2f})", f"top-8 process mean REBA {v:.2f}")
+
+n15 = int((g["size"] >= 30).sum())
+check("04.results.md", f"The {W[n15]} ground-truth processes with n of at least 30, ranked by mean REBA grand score", "Fig. 7 caption")
 
 # --- calibration (Section 4.5, Table 2) -------------------------------------------
-if section("calibration", has_metrics("exp005", "exp011", "exp012")):
+if section("calibration", has_metrics("exp005", "exp012")):
     c = pd.DataFrame(metrics("exp005")["per_row"])
     for m in ("rula", "reba"):
         x = c[c.method == m]
@@ -180,6 +213,9 @@ if section("calibration", has_metrics("exp005", "exp011", "exp012")):
     for _, r in c.iterrows():
         row = f"| {r.domain.capitalize()} | {r.method.upper()} | {float(r.temperature)} | {r.ece_before:.3f} | {r.ece_after:.3f} |"
         check("04.results.md", row, "Table 2 row")
+    t_opt = c.temperature.unique()
+    check("04.results.md", f"ECE at T_opt ({t_opt[0]}, the grid's lower bound)", "Table 6 caption: T_opt", len(t_opt) == 1)
+    check("04.results.md", f"Dashed: T = {t_opt[0]}, fitted for self-consistency", "Fig. 8 caption: T_opt", len(t_opt) == 1)
     w = metrics("exp012")
     for m in ("owas", "rula", "reba"):
         x = w["manufacturing_worker_held_out_repeated"][f"manufacturing/{m}"]
@@ -189,18 +225,27 @@ if section("calibration", has_metrics("exp005", "exp011", "exp012")):
             x = w[f"{dom}_leave_one_worker_out"]["summary"][f"{dom}/{m}"]
             lo, hi = x["ece_after_min_max"]
             check("04.results.md", f"{x['ece_after_mean']:.3f} ({lo:.3f}-{hi:.3f})", f"leave-one-worker-out {dom} {m}")
-    k = metrics("exp011")
-    f = [k[f"manufacturing/{m}"]["ci_width_inflation_clustered_over_naive"] for m in ("owas", "rula", "reba")]
-    check("04.results.md", f"({f[0]:.2f}-fold for OWAS, {f[1]:.2f}-fold for RULA, {f[2]:.2f}-fold for REBA)", "CI widening")
     out = run("mc_coverage")
     cov = {m: re.search(rf"{m}: 5-95% interval covers ([\d.]+)% of all poses, ([\d.]+)% .*mode matches ([\d.]+)%", out).groups()
            for m in ("OWAS", "RULA", "REBA")}
     cov = {m: [float(v) for v in x] for m, x in cov.items()}
-    check("03.methods.md", f"{cov['RULA'][1]:.0f}% (RULA), {cov['REBA'][1]:.0f}% (REBA), and {cov['OWAS'][1]:.0f}% (OWAS)", "MC coverage conf>=0.6")
     ow = "100" if cov["OWAS"][0] >= 99.95 else f"{cov['OWAS'][0]:.1f}"
-    check("03.methods.md", f"({cov['RULA'][0]:.0f}%, {cov['REBA'][0]:.0f}%, and {ow}% of all poses)", "MC coverage all")
     check("04.results.md", f"contains it for {cov['RULA'][0]:.0f}% and {cov['REBA'][0]:.0f}% ({ow}% for OWAS)", "MC coverage all (results)")
-    check("03.methods.md", f"matches the deterministic score for {cov['RULA'][2]:.0f}% and {cov['REBA'][2]:.0f}% of poses ({cov['OWAS'][2]:.0f}% for OWAS)", "mode match")
+    check("04.results.md", f"the modal score matches it for {cov['RULA'][2]:.0f}% and {cov['REBA'][2]:.0f}% of RULA and REBA poses ({cov['OWAS'][2]:.1f}% for OWAS)", "mode match")
+    # under-confidence at T = 1: mean top-class accuracy minus mean top-class confidence per domain (Fig. 8)
+    mcs = pd.read_csv(BATCH / "summary_with_mc.csv").set_index("file_stem")
+    zz = np.load(BATCH / "mc_distributions.npz", allow_pickle=True)
+    dd = mcs.loc[zz["file_stem"], "factory_id"].map({6: "e", 7: "l"}).fillna("m").to_numpy()
+    gap = {}
+    for m_, col_ in (("owas", "owas_action"), ("rula", "rula_grand"), ("reba", "reba_grand")):
+        P = zz[f"{m_}_probs"]
+        keep = P.sum(1) >= 1e-6
+        P = P / np.where(keep, P.sum(1), 1)[:, None]
+        hit = P.argmax(1) + 1 == mcs.loc[zz["file_stem"], col_].astype(int).to_numpy()
+        gap[m_] = [hit[keep & (dd == k_)].mean() - P.max(1)[keep & (dd == k_)].mean() for k_ in "elm"]
+    rr_ = gap["rula"] + gap["reba"]
+    check("04.results.md", f"exceeds mean top-class confidence by {min(rr_):.2f} to {max(rr_):.2f} across domains", "T=1 under-confidence RULA/REBA")
+    check("04.results.md", f"under-confident, by {min(gap['owas']):.2f} to {max(gap['owas']):.2f}", "T=1 under-confidence OWAS")
     for line in run("supp_calibration_alternatives").splitlines():
         if line.startswith("|"):
             check("09.supplementary.md", line.strip(), "Table S2.1 row")
@@ -249,8 +294,6 @@ arm = {a: [float(x) for x in re.search(rf"moment arm {a} m: AL-exceed ([\d.]+)% 
                                          run("fig_moment_arm_sensitivity")).groups()] for a in ("0.04", "0.05", "0.06")}
 check("04.results.md", f"from {arm['0.05'][0]:.1f}% to {arm['0.04'][0]:.1f}% (at 0.04 m) or {arm['0.06'][0]:.1f}% (at 0.06 m)", "moment arm AL")
 check("04.results.md", f"from {arm['0.05'][1]:.1f}% to {arm['0.04'][1]:.1f}% or {arm['0.06'][1]:.1f}%", "moment arm MPL")
-r6 = metrics("exp006")["pearson_r_overall"]
-check("03.methods.md", f"Pearson r = {r6:.3f} over all 6,007 poses", "dense-spine vs joint-moment L5/S1")
 out = run("cohort_correlations")
 rho = float(re.search(r"REBA grand: Spearman rho = ([\d.]+)", out).group(1))
 check("04.results.md", f"REBA grand score = {rho:.2f}", "L5/S1-REBA rho")
@@ -262,8 +305,13 @@ if section("shapley", has_metrics("exp001c")):
     sh = metrics("exp001c")
     check("04.results.md", f"{sh['monotonicity_random_checks_rula']:,}", "RULA random checks")
     check("04.results.md", f"{sh['monotonicity_random_checks_reba']:,}", "REBA random checks")
-    w = f"{100*sh['monotonicity_random_pooled_owas']:.2f}% (Wilson 95% CI [{100*sh['owas_wilson_95_lo']:.2f}, {100*sh['owas_wilson_95_hi']:.2f}]"
-    check("04.results.md", w, f"OWAS violation {w}")
+    inc = json.loads((has_metrics("exp001c")[0].parent / "raw.json").read_text())["owas_wilson_ci_random"]
+    w = (f"{100*inc['rate']:.2f}% of the randomly drawn one-step increments ({inc['inc_violations']} of {inc['inc_checks']:,}; "
+         f"Wilson 95% CI [{100*inc['wilson_95_lo']:.2f}, {100*inc['wilson_95_hi']:.2f}]%), "
+         f"{100*sh['monotonicity_random_pooled_owas']:.2f}% when increments and decrements are pooled "
+         f"({round(sh['monotonicity_random_pooled_owas']*sh['monotonicity_random_checks_owas'])} of {sh['monotonicity_random_checks_owas']:,}), "
+         f"and {100*sh['monotonicity_owas_exhaustive_inc_rate']:.2f}% on the exhaustive grid")
+    check("04.results.md", "violates monotonicity in " + w, f"OWAS violation {w}")
     check("04.results.md", f"{100*sh['monotonicity_owas_exhaustive_inc_rate']:.2f}%", "OWAS exhaustive rate")
     n_trials = round(853 / sh["T16_efficiency_exact_zero_fraction_owas"])  # zero fraction = k/1010
     check("04.results.md", f"{n_trials:,} verification trials", f"{n_trials} trials")
@@ -272,16 +320,24 @@ if section("shapley", has_metrics("exp001c")):
     check("04.results.md", "residual below 9e-15", f"{eff:.1e}", eff < 9e-15)
     check("04.results.md", "below 2e-14", f"{add:.1e}", add < 2e-14)
     log = run("fig_shapley_attribution")
-    for axis, fmt in (("Neck", "neck accounts for {:.0f}%"), ("Upper arm", "upper arm {:.0f}%"), ("Trunk", "trunk {:.0f}%")):
+    for axis, fmt in (("Neck", "neck accounts for {:.0f}%"), ("Upper arm", "upper arm {:.0f}%"), ("Trunk", "trunk {:.0f}%"), ("Lower arm", "lower arm {:.0f}%")):
         v = float(re.search(rf"{axis}\s+([\d.]+)%", log).group(1))
         check("04.results.md", fmt.format(v), f"{axis} {v}%")
     tn = float(re.search(r"trunk \+ neck = ([\d.]+)%", log).group(1))
     check("04.results.md", f"trunk and neck together {tn:.0f}%", "trunk+neck")
     g, n_top = re.search(r"n poses at RULA grand (\d+): (\d+)", log).groups()
+    check("04.results.md", f"Shapley attribution for the {n_top} poses at the highest RULA grand score in the cohort", "Fig. 10 caption")
     check("04.results.md", f"all {n_top} poses at the highest RULA grand score in the cohort ({g})", "highest-RULA poses")
 
 # --- guarded fusion (Section 4.4, Fig. 5) -------------------------------------------
-if section("fusion", [BATCH / "analysis/v1_vs_v2_clinical_summary.csv"]):
+FUS = E / "result/exp-r2-fusion-comparison-v2/summary_table.csv"
+if section("fusion", [BATCH / "analysis/v1_vs_v2_clinical_summary.csv", BATCH / "analysis/v1_vs_v2_clinical.csv", FUS]):
+    n_poses = pd.read_csv(BATCH / "analysis/v1_vs_v2_clinical.csv").groupby("joint_name").file_stem.nunique()
+    n_meth = pd.read_csv(FUS).query("condition == 'same_person'").method.pipe(lambda m: m[~m.str.contains("_minus_")]).nunique()
+    check("04.results.md", f"Section 4.4 compares the {W[n_meth]} fusion methods quantitatively", "fusion methods compared", n_poses.nunique() == 1)
+    check("04.results.md", f"Fig. 5 shows on {W[n_poses.max()]} illustrative poses", "Fig. 5 poses")
+    check("04.results.md", f"on the {W[n_poses.max()]}-pose-per-joint panel of Section 4.4", "Fig. 5 text: panel")
+    check("04.results.md", f"(illustrative panel of {W[n_poses.max()]} high-risk poses per joint)", "Fig. 5 caption")
     v = pd.read_csv(BATCH / "analysis/v1_vs_v2_clinical_summary.csv").set_index("joint_name")
     a = lambda j, c: f"{v.loc[j, c]:.1f}"
     check("04.results.md", f"({a('L5/S1','v1_mean')} to {a('L5/S1','v2-CD-soft_mean')} Nm)", "soft L5/S1")
@@ -299,6 +355,8 @@ if section("backbones", [mac]):
     fm = lambda v: "100" if round(v, 1) == 100 else f"{v:.1f}"
     names = {"Body (COCO-17)": "RTMPose-Body", "BodyWithFeet (Halpe-26)": "RTMPose-BodyWithFeet",
              "Wholebody3d → BIOERA-25": "RTMW3D-x, major-25"}
+    n_w = bk.groupby("model").size()
+    check("04.results.md", f"of the {W[len(n_w)]} rtmlib backbones on the {W[n_w.max()]} example workers", "S3 pointer", n_w.nunique() == 1)
     for m_, g_ in bk.groupby("model"):
         check("09.supplementary.md", f"| {names[m_]} | {int(g_.n_kpts.iloc[0])} | {g_.pct_visible.mean():.1f} "
               f"({fm(g_.pct_visible.min())}-{fm(g_.pct_visible.max())}) | {g_.mean_conf.mean():.2f} |", "Table S3.1 row")
@@ -318,8 +376,10 @@ check("letter", f"rank correlations ({ag.loc[('owas', 'rula'), 'rho']:.2f} and {
 
 # --- context defaults, contact rule, classifier (Sections 3.9, 4.8, 4.9) ---------
 section("context")
-m = re.search(r"conservative \(both\)\s+mean diff \+([\d.]+)", run("ctx_default_shift"))
-check("03.methods.md", f"under-reporting REBA by {float(m.group(1)):.1f} points", "context default shift")
+# the script prints one decimal; a printed x.5 is a tie (31.5 is 31.48 = 1,891 of 6,007), so round it down
+m = re.search(r"conservative \(both\)\s+mean diff \+([\d.]+)\s+level 1->2 ([\d.]+)%\s+any upward level shift ([\d.]+)%", run("ctx_default_shift"))
+check("04.results.md", f"raises the mean REBA grand score by {float(m.group(1)):.2f} points across the 6,007 poses and moves {float(m.group(3)):.0f}% of poses up at "
+      f"least one action level ({float(m.group(2)) - 1e-6:.0f}% from level 1 to 2)", "context default shift")
 check("letter", f"REBA plus {float(m.group(1)):.2f} points", "context default shift (letter)")
 out = run("cohort_correlations")
 check("09.supplementary.md", f"Spearman rho = {float(re.search(r'S8:.*rho = ([\d.]+)', out).group(1)):.2f}", "S8 rho")
@@ -328,6 +388,19 @@ pr = pd.read_csv(BATCH / "summary_with_pred.csv").dropna(subset=["pred_process_i
 y, yh = pr.process_id, pr.pred_process_id.astype(int)
 check("04.results.md", f"reaches {100*(y == yh).mean():.1f}% top-1 accuracy, macro-F1 {f1_score(y, yh, average='macro'):.3f}, "
       f"and balanced accuracy {balanced_accuracy_score(y, yh):.3f} across {y.nunique()} process classes (n = {len(pr):,}", "classifier")
+pr["pp"] = yh
+hot = {f_: x.groupby("pp").rula_grand.agg(["mean", "size"]).sort_values("mean").iloc[-1] for f_, x in pr[pr.factory_id <= 5].groupby("factory_id")}
+plab = pr.drop_duplicates("process_id").set_index("process_id").process_label
+hl = {f_: plab[int(r.name)] for f_, r in hot.items()}
+sites = lambda pred: "(" + ", ".join(f"F{f_}" for f_ in hl if pred(hl[f_])) + ")"
+num = {1: "one", 2: "two", 3: "three", 4: "four", 5: "five"}
+n_sas = sum(v.startswith("사상") for v in hl.values())
+sas = " or ".join(sorted({"Sasang-" + v[2:] for v in hl.values() if v.startswith("사상")}))
+small = [f_ for f_ in hot if hot[f_]["size"] <= 2]
+check("04.results.md", f"a predicted Sasang process ({sas}) the hottest cell at {num[n_sas]} of the five manufacturing sites {sites(lambda v: v.startswith('사상'))}, "
+      f"a welding process at {sites(lambda v: v.startswith('용접'))[1:-1]}, and a predicted caregiving class (bathing), which does not occur at that site, at "
+      f"{sites(lambda v: v.startswith('목욕'))[1:-1]}; at {num[len(small)]} of these sites ({', '.join(f'F{f_}' for f_ in small)}) the hottest cell holds only one or two poses",
+      str({f_: (hl[f_], int(hot[f_]['size'])) for f_ in hl}))
 pt = json.loads((BATCH / "process_training.json").read_text())
 check("04.results.md", f"held-out test split it reaches {100*pt['test_accuracy']:.1f}% and macro-F1 {pt['test_macro_f1']:.3f}", "classifier test split")
 cache = ROOT / "ace_pose/_runs/contact_cohort/cache"
@@ -338,11 +411,8 @@ if n_cache < len(s):
 elif section("contact", [cache]):
     out = run("contact_cohort_score")
     rate = {d_: float(x) for d_, x in re.findall(r"^(\w+)\s+n=\s*\d+.*contact fires\s+\d+ \(([\d.]+)%\)", out, re.M)}
-    check("04.results.md", f"{rate['eldercare']:.1f}% of eldercare poses", "contact eldercare")
-    check("04.results.md", f"{rate['logistics']:.1f}% of logistics", "contact logistics")
-    check("04.results.md", f"{rate['manufacturing']:.1f}% of manufacturing", "contact manufacturing")
-    ch = {m_: int(n) for m_, n in re.findall(r"(RULA|REBA): (\d+) of 1006 poses changed", out)}
-    check("04.results.md", f"raising {round(100*ch['RULA']/1006)}% of eldercare RULA and {round(100*ch['REBA']/1006)}% of eldercare REBA", "contact changes")
+    check("04.results.md", f"fires on {rate['eldercare']:.1f}% of eldercare, {rate['logistics']:.1f}% of logistics, and {rate['manufacturing']:.1f}% of manufacturing poses",
+          rate)
 
 # --- VLM context comparison (Section 4.8) -------------------------------------------
 vlm = ROOT / "topic/D/result/exp-vlm50-context-comparison/per_image.csv"
@@ -371,7 +441,7 @@ if section("vlm", [vlm]):
 # --- expert pilot (Section 4.9, letter); needs the expert's consent to release -----
 exp_csv = ROOT / "ace_pose/_runs/expert_pilot/expert_vs_pipeline.csv"
 exp_scores = ROOT / "datasets/public/expert_pilot_22/expert_pilot_scores.csv"
-if section("expert", [exp_csv, exp_scores]):
+if section("expert", [exp_csv, exp_scores, E / "result/exp-r2-expert-agreement/agreement.csv", E / "result/exp-r2-expert-agreement/per_image.csv"]):
     x = pd.read_csv(exp_csv)
     em = x.groupby("standard").exact_match.sum()
     check("letter", f"{em['OWAS']}/22 for OWAS, {em['RULA']}/22 for RULA, and {em['REBA']}/22 for REBA", em.to_dict())
@@ -387,26 +457,56 @@ if section("expert", [exp_csv, exp_scores]):
         n = int((pv.system_submitted == pv.expert).sum())
         check("letter", before, f"{std} legs before fix {n}/22", f"from {n} to" == before)
     lf = pd.read_csv(ROOT / "ace_pose/_runs/expert_pilot/load_fix_before_after.csv")
-    ex = {s: int((g.angles_nocontact == g.expert).sum()) for s, g in lf.groupby("standard")}
-    r = lf[lf.standard == "RULA"]
-    under = int((r.angles_nocontact < r.expert).sum())
-    # Table 5 (code-correction stages): every row from the stage file
-    for col in ("submitted", "tables", "legs", "contact", "worker", "angles", "posture", "wrist", "taskload"):
-        g3 = [lf[lf.standard == s] for s in ("OWAS", "RULA", "REBA")]
-        cells = [str(int((g[col] == g.expert).sum())) for g in g3] + [f"{(g[col] - g.expert).abs().mean():.2f}" for g in g3]
-        check("04.results.md", " | " + " | ".join(cells) + " |", f"Table 5 stage {col}")
+    # Section 4.9 correction 2: leg sub-score agreement with the expert, submitted vs current code
+    import contextlib
+    import io
+    import fig_expert_load_fix as xf
+    buf = io.StringIO()
+    with contextlib.redirect_stdout(buf):
+        xf.leg_subscore_check(ps)
+    lg = {k: (int(a), int(b)) for k, a, b in re.findall(r"(OWAS|REBA) legs: submitted (\d+)/22, current code (\d+)/22", buf.getvalue())}
+    check("04.results.md", f"rose from {lg['OWAS'][0]} to {lg['OWAS'][1]} of 22 for the OWAS legs code and from {lg['REBA'][0]} to {lg['REBA'][1]} of 22 for the REBA leg score", lg)
+    # Table 11: three settings by three standards, from the registered agreement table
+    ag11 = pd.read_csv(E / "result/exp-r2-expert-agreement/agreement.csv")
+    pi11 = pd.read_csv(E / "result/exp-r2-expert-agreement/per_image.csv")
+    for stg, label in (("submitted", "Submitted"), ("cohort", "Cohort"), ("taskload", "Task-load")):
+        for std in ("OWAS", "RULA", "REBA"):
+            a = ag11[(ag11.setting == stg) & (ag11.method == std)].iloc[0]
+            base = pi11[(pi11.setting == stg) & (pi11.method == std)].expert.value_counts().max()
+            check("04.results.md", f"| {label} | {std} | {a.exact_n} | {base} | {100 * a.within1_rate:.1f} | "
+                  f"{a.kappa_linear:.3f} ({a.kappa_linear_lo:.3f} to {a.kappa_linear_hi:.3f}) |", f"Table 11 {stg} {std}")
+    cs = {m_: ag11[(ag11.setting == "cohort") & (ag11.method == m_)].iloc[0].exact_n for m_ in ("OWAS", "RULA", "REBA")}
+    cb = {m_: pi11[(pi11.setting == "cohort") & (pi11.method == m_)].expert.value_counts().max() for m_ in ("OWAS", "RULA", "REBA")}
+    check("04.results.md", f"exact agreement is {cs['OWAS']}, {cs['RULA']}, and {cs['REBA']} of 22 for OWAS, RULA, and REBA", "cohort exact (Table 11 text)")
+    check("04.results.md", f"would agree on {cb['OWAS']}, {cb['RULA']}, and {cb['REBA']} images", "baseline (Table 11 text)")
     fin = {s: int((g.taskload == g.expert).sum()) for s, g in lf.groupby("standard")}
     pos = {s: int((g.posture == g.expert).sum()) for s, g in lf.groupby("standard")}
-    check("04.results.md", f"agreement at {pos['OWAS']}, {pos['RULA']}, and {pos['REBA']} of 22 for OWAS, RULA, and REBA",
-          "stage 6 agreement")
-    check("04.results.md", f"agreement is {fin['OWAS']}, {fin['RULA']}, and {fin['REBA']} of 22 (Fig. 13, bottom row)",
-          "stage 8 agreement")
-    check("04.results.md", f"agreement is {ex['OWAS']}, {ex['REBA']}, and {ex['RULA']} of 22 for OWAS, REBA, and RULA, "
-          f"with RULA below the expert in {under} of 22", "pilot, cohort code (no contact rule)")
     check("letter", f"exact agreement with the expert is {fin['OWAS']}, {fin['RULA']}, and {fin['REBA']} of 22 for OWAS, RULA, and REBA",
           "pilot, final code (letter)")
     check("letter", f"The posture corrections alone give {pos['OWAS']}, {pos['RULA']}, and {pos['REBA']}",
           "pilot, posture corrections (letter)")
+
+    # Section 4.9 text: sample, disagreement mechanisms, sub-score agreement, load sensitivity
+    nimg = x.id.nunique()
+    dm = x.drop_duplicates("id").domain.value_counts()
+    check("04.results.md", f"cohort images ({dm['eldercare']} eldercare, {dm['logistics']} logistics, {dm['manufacturing']} manufacturing;", "pilot sample", nimg == 22)
+    check("00.abstract.md", f"No evidence of expert agreement on {nimg} development images (one rater)", "highlight 1")
+    check("04.results.md", f"expert action level (columns), n = {nimg} per panel", "Fig. 13 caption")
+    mech = dis.mechanisms.fillna("")
+    cnt = lambda kw: int(mech.str.contains(kw, case=False).sum())
+    check("04.results.md", f"reasons for the {len(dis)} disagreeing image-standard pairs", "disagreeing pairs")
+    check("04.results.md", f"**Load**: {cnt('load')} of the {len(dis)} reasons cite a load", "mechanism load")
+    check("04.results.md", f"**Legs/locomotion**: {cnt('walk')} reasons cite walking", "mechanism walking")
+    check("04.results.md", f"**Sustained or repeated activity**: {cnt('repet')} reasons cite a held static posture", "mechanism repetition")
+    check("04.results.md", f"{int((mech == '').sum())} of the {len(dis)} cite none", "mechanism none")
+    sub = lambda std, col: int((lambda pv: (pv.system_submitted == pv.expert).sum())(ps[ps.standard == std].pivot(index="id", columns="rater", values=col)))
+    check("04.results.md", f"RULA upper arm {sub('RULA', 'upper_arm')}/22, lower arm {sub('RULA', 'lower_arm')}/22, neck {sub('RULA', 'neck')}/22, trunk {sub('RULA', 'trunk')}/22; "
+          f"REBA trunk {sub('REBA', 'trunk')}/22, neck {sub('REBA', 'neck')}/22, legs {sub('REBA', 'legs')}/22; OWAS legs {sub('OWAS', 'legs')}/22", "sub-score agreement")
+    check("04.results.md", f"Of the {22 - sub('OWAS', 'legs')} OWAS legs disagreements", "OWAS legs disagreements")
+    check("04.results.md", f"RULA wrist agrees on {sub('RULA', 'wrist')}/22", "RULA wrist agreement")
+    tl = {m_: ag11[(ag11.setting == "taskload") & (ag11.method == m_)].iloc[0].exact_n for m_ in ("OWAS", "RULA", "REBA")}
+    check("04.results.md", f"exact agreement is {tl['RULA']} of 22 for RULA instead of {cs['RULA']} and {tl['REBA']} for REBA instead of {cs['REBA']}, and OWAS stays at {tl['OWAS']}",
+          "load sensitivity", tl["OWAS"] == cs["OWAS"])
 
 # --- Section 4.10: annotation benchmark, annotated-keypoint pose vs expert, measurable share ---
 AA = ROOT / "topic/E/result/action_agreement"
@@ -422,8 +522,9 @@ if section("limits", [AA / "metrics.json", AA / "metrics_split.json"]):
     cov = am["coverage"]
     check("04.results.md", f"{100 * cov['view30']['OWAS']['all']:.1f}% of the 5,889 annotated images are fully measurable for OWAS"
           f" and {100 * cov['view30']['RULA']['all']:.1f}% for RULA and REBA", "measurable share 30 deg")
-    check("04.results.md", f"from {100 * am['labels_all_OWAS']['accuracy']:.1f}% to {100 * am['labels_view30_OWAS']['accuracy']:.1f}% for OWAS"
-          f" and from {100 * am['labels_all_RULA']['accuracy']:.1f}% to {100 * am['labels_view30_RULA']['accuracy']:.1f}% for RULA",
+    la = lambda k, v: f"{100 * am[f'labels_{v}_{k}']['accuracy']:.1f}"
+    check("04.results.md", f"rises from {la('OWAS', 'all')}% (all 5,889 annotated images) to {la('OWAS', 'view30')}% for OWAS"
+          f" and from {la('RULA', 'all')}% to {la('RULA', 'view30')}% for RULA, while REBA does not rise ({la('REBA', 'all')}% to {la('REBA', 'view30')}%)",
           "measurable subset agreement")
 # needs the expert's scores, which ship only once the expert consents: its own section, so that a
 # release without them skips it instead of shifting the numbering of the checks above
@@ -445,6 +546,58 @@ if section("supp_s9", list(S9.values())):
             cells = [mae[m]["trunk_flexion"] for m in ("planar", "free3d", "rom3d", "bal3d", "prior")]
             check("09.supplementary.md", f"| {name} | " + " | ".join(f"{v:.1f}" for v in cells) + " |", f"Table S9.1 {name}")
 
+# --- paragraph coverage: other-pose-model comparison (Section 4.9), highlights ----------------
+PM = E / "result/pose_model_comparison"
+if section("pose_models", [PM / "accuracy_speed.csv", PM / "lift3d_timing.csv"]):
+    pa, pt_ = pd.read_csv(PM / "accuracy_speed.csv"), pd.read_csv(PM / "lift3d_timing.csv")
+    alt = pa[pa.model != "rtmw3d"]
+    ex = alt.expert_exact_OWAS_RULA_REBA.str.split("/", expand=True).astype(int)
+    check("04.results.md", f"{W[len(alt)].capitalize()} alternative models", "alternative models")
+    check("04.results.md", f"Keypoint accuracy ranged from {alt.PCK05.min():.2f} to {alt.PCK05.max():.2f} (PCK at 0.05", "PCK range")
+    check("04.results.md", f"exact agreement with the expert from {ex.min().min()} to {ex.max().max()} of 22 for every standard", "exact agreement range")
+    check("04.results.md", f"from {alt.gpu_ms.min():.0f} ms to {alt.gpu_ms.max():.0f} ms on a GPU, while the scoring layer takes {pt_.scoring_ms.max():.1f} ms per pose",
+          "latency", pt_.scoring_ms.nunique() == 1)
+AI = E / "result/exp-r2-assumed-inputs/metrics.json"
+IC = E / "result/exp-r2-indep-calibration/metrics.json"
+if section("highlights", [AI, IC, AA / "metrics.json"]):
+    am_ = json.loads(AI.read_text())
+    wr = lambda std, k: am_[f"wrist_worst/{std}/ALL/{k}"]
+    check("00.abstract.md", f"Worst-case wrist moved RULA/REBA action level in {100 * wr('RULA', 'share_action_changed'):.1f}%/"
+          f"{100 * wr('REBA', 'share_action_changed'):.1f}% of {wr('RULA', 'n'):,} images", "highlight: worst wrist")
+    ic = json.loads(IC.read_text())
+    cells = [k for k in ic if k.endswith("/pass_def_indep")]
+    k_pass = sum(bool(ic[k]) for k in cells)
+    check("00.abstract.md", f"calibration met its criterion in only {k_pass} of {len(cells)} cells", "highlight: calibration cells", k_pass == ic["criterion/cells_pass_def"])
+    cv = json.loads((AA / "metrics.json").read_text())["coverage"]["view30"]
+    check("00.abstract.md", f"Only about {round(100 * cv['OWAS']['all'])}% of workplace images are fully measurable from one view", "highlight: measurable share",
+          abs(cv["RULA"]["all"] - cv["OWAS"]["all"]) < 0.05)  # "about 30%" must also fit RULA/REBA (31.5%)
+if section("highlights_s9", list(S9.values())):
+    mae = [json.loads(f.read_text())["all"]["mae"]["planar"]["trunk_flexion"] for f in S9.values()]
+    check("00.abstract.md", f"Image-plane trunk angle errs {round(min(mae))}-{round(max(mae))} degrees against motion capture", "highlight: trunk error")
+
+# --- code-correction history (Section 4.9) ---------------------------------------------
+# Cohort summaries kept from before each correction. They are not in the review copy, so this section is skipped there.
+pre_table, pre_legs = BATCH / "_backup_pre_tablefix_20261004/summary.csv", BATCH / "_backup_pre_legsfix_20261005/summary.csv"
+pre_planar = BATCH / "_backup_pre_planar_20261008/analysis/cohort_disc_perpose.csv"
+if section("history", [pre_table, pre_legs, pre_planar, exp_scores]):
+    from ace_pose.ergo_v2.tables import RULA_TABLE_A, RULA_TABLE_C  # noqa: E402
+    a = pd.read_csv(pre_table)                                                  # stale Table A
+    b = pd.read_csv(pre_legs).set_index("file_stem").loc[a.file_stem].reset_index()  # re-scored; leg heuristic still in place
+    level = lambda g: np.digitize(g, [3, 5, 7]) + 1                             # RULA grand 1-2, 3-4, 5-6, 7 -> action level 1-4
+    d = b.rula_action.values - a.rula_action.values
+    check("04.results.md", f"Re-scoring changed {(d != 0).sum()} of the {len(a):,} RULA action levels ({100 * (d != 0).mean():.1f}%), {(d > 0).sum()} of them upward",
+          "stale run vs re-scored run", (level(a.rula_grand) == a.rula_action).all())
+    # the table correction alone: current Table A on the stale run's own arm and wrist scores (wrist twist 1, as that run scored it)
+    sa = RULA_TABLE_A[a.rula_upper_arm - 1, a.rula_lower_arm - 1, a.rula_wrist - 1, 0]
+    t = level(RULA_TABLE_C[sa - 1, a.rula_score_b - 1]) - a.rula_action.values
+    check("04.results.md", f"changed {(t != 0).sum()}, all upward", "current Table A on the stale sub-scores", (t >= 0).all())
+    one = int(b.owas_legs.isin([3, 5]).sum())                                   # OWAS legs codes 3 and 5: weight on one leg
+    check("04.results.md", f"gave a one-legged legs code to {one:,} of the {len(b):,} poses ({100 * one / len(b):.0f}%)", "legs codes 3 and 5 before the fix")
+    check("04.results.md", f"an implausible {pd.read_csv(pre_planar).C_L5S1.max() / 1000:.0f} kN in one pose", "largest L5/S1 compression before the fix")
+    x = pd.read_csv(exp_scores).query("standard == 'RULA' and rater == 'expert'")
+    hit = int((RULA_TABLE_A[x.upper_arm.astype(int) - 1, x.lower_arm.astype(int) - 1, x.wrist.astype(int) - 1, 0] == x.score_a).sum())
+    check("04.results.md", f"reproduces the expert's own Table-A lookups in {hit} of {len(x)} rows", "current Table A on the expert's arm and wrist scores")
+
 # --- unit tests -----------------------------------------------------------------------
 section("tests")
 ignore = [f"--ignore=ace_pose/tests/{t}" for t in LEGACY_TESTS if (ROOT / "ace_pose/tests" / t).exists()]
@@ -452,19 +605,6 @@ out = subprocess.run([PY, "-m", "pytest", "-q", "ace_pose/tests", *ignore], cwd=
 n_tests = re.search(r"(\d+) passed", out)
 n_fail = re.search(r"(\d+) failed", out)
 check("03.methods.md", f"ships {n_tests.group(1) if n_tests else '?'} unit tests", out.strip().splitlines()[-1] if out.strip() else "no output", not n_fail)
-
-# --- runtime (hardware-dependent; working tree only) ---------------------------------
-# Runtime reference: the May 2026 runs (pose inference on an RTX 4090, Monte Carlo on CPU without contention).
-RT = ROOT / "ace_pose/_runs/runtime_reference"
-pose_log, mc_log = RT / "pose_inference_gpu_202605.log", RT / "monte_carlo_cpu_202605.log"
-if MANUSCRIPT_MODE and section("runtime", [pose_log, mc_log]):
-    pose_s = float(re.search(r"Done in ([\d.]+)s", pose_log.read_text()).group(1))
-    mc_s = float(re.findall(r"Done in ([\d.]+)s", mc_log.read_text())[0])
-    check("03.methods.md", f"pose {pose_s/60:.1f} min", f"{pose_s:.0f} s")
-    check("03.methods.md", f"MC layer {mc_s/60:.1f} min", f"May 2026 c3_mc run {mc_s:.0f} s")
-    check("03.methods.md", "under 30 min", f"pose+MC {(pose_s+mc_s)/60:.1f} min", (pose_s + mc_s) / 60 < 30)
-elif not MANUSCRIPT_MODE:
-    skipped.append(("runtime", "hardware-dependent, not re-checked in release mode"))
 
 # --- report ---------------------------------------------------------------------------
 w2 = min(70, max(len(r["needle"]) for r in rows))

@@ -97,7 +97,7 @@ of knee flexion from full extension.
 
 **Implementation note (2026-10-05).** Codes 3 and 5 depend on how body weight is split between the legs,
 which a single monocular frame does not show. The earlier implementation inferred it from left-right ankle
-asymmetry about the pelvis; that labelled 84% of the 6,007-pose cohort as one-legged and disagreed with the
+asymmetry about the pelvis; that gave a one-legged legs code to 4,086 of the 6,007 cohort poses (68%) and disagreed with the
 project ergonomist on all 6 straight-legged standing poses it flagged among the 22 expert-scored images.
 `legs_balanced` now assumes bilateral support (as the walking flag defaults to not walking). Code 3 is still
 assigned when exactly one knee is bent, which is observable. RULA and REBA leg scores use the same function and

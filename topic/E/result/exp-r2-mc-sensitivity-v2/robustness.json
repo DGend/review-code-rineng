@@ -1,0 +1,61 @@
+{
+ "a_breaks": [
+  "sigma0.08_S128/eldercare/RULA: ece_after_default_mean 0.0740 > 0.07",
+  "sigma0.08_S128/logistics/RULA: ece_after_default_mean 0.1067 > 0.07",
+  "sigma0.08_S128/manufacturing/RULA: ece_after_default_mean 0.0747 > 0.07"
+ ],
+ "b_breaks": [
+  "sigma0.04_S64/eldercare/RULA: mode_match diff -3.18 pp",
+  "sigma0.04_S64/logistics/REBA: mode_match diff -2.30 pp",
+  "sigma0.04_S64/logistics/RULA: mode_match diff -4.70 pp",
+  "sigma0.04_S64/manufacturing/RULA: mode_match diff -2.17 pp",
+  "sigma0.08_S128/eldercare/REBA: mode_match diff -8.25 pp",
+  "sigma0.08_S128/eldercare/RULA: mode_match diff -5.57 pp",
+  "sigma0.08_S128/logistics/REBA: mode_match diff -5.10 pp",
+  "sigma0.08_S128/logistics/RULA: mode_match diff -4.30 pp",
+  "sigma0.08_S128/manufacturing/REBA: mode_match diff -4.82 pp",
+  "sigma0.08_S128/manufacturing/RULA: mode_match diff -4.02 pp"
+ ],
+ "a_pass": false,
+ "b_pass": false,
+ "ext_grid": {
+  "a_breaks": [
+   "sigma0.08_S128/logistics/RULA: ece_after_ext_mean 0.0758 > 0.07"
+  ],
+  "b_breaks": [
+   "sigma0.04_S64/eldercare/RULA: mode_match diff -3.18 pp",
+   "sigma0.04_S64/logistics/REBA: mode_match diff -2.30 pp",
+   "sigma0.04_S64/logistics/RULA: mode_match diff -4.70 pp",
+   "sigma0.04_S64/manufacturing/RULA: mode_match diff -2.17 pp",
+   "sigma0.08_S128/eldercare/REBA: mode_match diff -8.25 pp",
+   "sigma0.08_S128/eldercare/RULA: mode_match diff -5.57 pp",
+   "sigma0.08_S128/logistics/REBA: mode_match diff -5.10 pp",
+   "sigma0.08_S128/logistics/RULA: mode_match diff -4.30 pp",
+   "sigma0.08_S128/manufacturing/REBA: mode_match diff -4.82 pp",
+   "sigma0.08_S128/manufacturing/RULA: mode_match diff -4.02 pp"
+  ],
+  "a_pass": false,
+  "b_pass": false
+ },
+ "leaky_reference": {
+  "a_breaks": [
+   "sigma0.08_S128/eldercare/RULA: ece_after_leaky 0.1016 > 0.07",
+   "sigma0.08_S128/logistics/RULA: ece_after_leaky 0.0744 > 0.07",
+   "sigma0.08_S128/manufacturing/RULA: ece_after_leaky 0.0758 > 0.07"
+  ],
+  "b_breaks": [
+   "sigma0.04_S64/eldercare/RULA: mode_match diff -3.18 pp",
+   "sigma0.04_S64/logistics/REBA: mode_match diff -2.30 pp",
+   "sigma0.04_S64/logistics/RULA: mode_match diff -4.70 pp",
+   "sigma0.04_S64/manufacturing/RULA: mode_match diff -2.17 pp",
+   "sigma0.08_S128/eldercare/REBA: mode_match diff -8.25 pp",
+   "sigma0.08_S128/eldercare/RULA: mode_match diff -5.57 pp",
+   "sigma0.08_S128/logistics/REBA: mode_match diff -5.10 pp",
+   "sigma0.08_S128/logistics/RULA: mode_match diff -4.30 pp",
+   "sigma0.08_S128/manufacturing/REBA: mode_match diff -4.82 pp",
+   "sigma0.08_S128/manufacturing/RULA: mode_match diff -4.02 pp"
+  ],
+  "a_pass": false,
+  "b_pass": false
+ }
+}
