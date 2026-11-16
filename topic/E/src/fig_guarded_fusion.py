@@ -22,10 +22,10 @@ OUT_DIR = Path(__file__).resolve().parents[1] / "paper/figures"
 
 JOINT_ORDER = ["L5/S1", "Hip", "Shoulder", "Knee"]
 SERIES = [
-    ("v1_mean", "Single backbone (v1)", "#7f7f7f"),
-    ("v2-CD-soft_mean", "Naive soft fusion", "#4472c4"),
+    ("v1_mean", "Single backbone", "#7f7f7f"),
+    ("v2-CD-soft_mean", "Naive soft average", "#4472c4"),
     ("v2-CD-max_mean", "Naive winner-takes-all", "#e67e22"),
-    ("v2-guarded_mean", "Guarded fusion (deployed)", "#2e8b57"),
+    ("v2-guarded_mean", "Guarded fusion", "#2e8b57"),
 ]
 
 
@@ -53,10 +53,7 @@ def main():
     ax.set_xticks(x)
     ax.set_xticklabels(JOINT_ORDER)
     ax.set_ylabel("Joint moment (Nm)")
-    ax.set_title(
-        "Guarded vs. naive pose fusion: joint-moment effect\non a four-pose-per-joint panel (n = 4)",
-        fontsize=11,
-    )
+    # No title inside the figure: the journal asks for the title in the caption only.
     ax.legend(fontsize=8)
     fig.tight_layout()
 
