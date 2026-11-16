@@ -1529,14 +1529,14 @@
   "section": "highlights",
   "i": 3,
   "where": "00.abstract.md",
-  "needle": "Only about 30% of workplace images are fully measurable from one view",
+  "needle": "Only about 30% of workplace images are fully measurable under our visibility rule",
   "value": "highlight: measurable share"
  },
  {
   "section": "highlights_s9",
   "i": 1,
   "where": "00.abstract.md",
-  "needle": "Image-plane trunk angle errs 9-18 degrees against motion capture",
+  "needle": "Image-plane trunk angle errs 9-18 degrees against public motion capture",
   "value": "highlight: trunk error"
  },
  {
@@ -1579,6 +1579,6 @@
   "i": 1,
   "where": "03.methods.md",
   "needle": "ships 140 unit tests",
-  "value": "140 passed, 1 warning in 17.33s"
+  "value": "140 passed, 1 warning in 17.65s"
  }
 ]

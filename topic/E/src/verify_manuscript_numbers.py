@@ -569,11 +569,11 @@ if section("highlights", [AI, IC, AA / "metrics.json"]):
     k_pass = sum(bool(ic[k]) for k in cells)
     check("00.abstract.md", f"calibration met its criterion in only {k_pass} of {len(cells)} cells", "highlight: calibration cells", k_pass == ic["criterion/cells_pass_def"])
     cv = json.loads((AA / "metrics.json").read_text())["coverage"]["view30"]
-    check("00.abstract.md", f"Only about {round(100 * cv['OWAS']['all'])}% of workplace images are fully measurable from one view", "highlight: measurable share",
+    check("00.abstract.md", f"Only about {round(100 * cv['OWAS']['all'])}% of workplace images are fully measurable under our visibility rule", "highlight: measurable share",
           abs(cv["RULA"]["all"] - cv["OWAS"]["all"]) < 0.05)  # "about 30%" must also fit RULA/REBA (31.5%)
 if section("highlights_s9", list(S9.values())):
     mae = [json.loads(f.read_text())["all"]["mae"]["planar"]["trunk_flexion"] for f in S9.values()]
-    check("00.abstract.md", f"Image-plane trunk angle errs {round(min(mae))}-{round(max(mae))} degrees against motion capture", "highlight: trunk error")
+    check("00.abstract.md", f"Image-plane trunk angle errs {round(min(mae))}-{round(max(mae))} degrees against public motion capture", "highlight: trunk error")
 
 # --- code-correction history (Section 4.9) ---------------------------------------------
 # Cohort summaries kept from before each correction. They are not in the review copy, so this section is skipped there.
