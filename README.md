@@ -11,13 +11,13 @@ included. The source images are not redistributed; the two figures below show fa
 ## Figures
 
 **Supplementary Fig. S4.** Every compared pose model (rows) on the nine domain-by-risk-tier images
-(columns), drawn from real inference; produced by `topic/E/src/fig_pose_models_grid.py`.
+(columns), drawn from real inference; produced by `bioera/analysis/src/fig_pose_models_grid.py`.
 
 ![Supplementary Fig. S4](docs/S4.jpg)
 
 **Supplementary Fig. S9.** 3D skeletons fitted under human range-of-motion limits, before and after
 the standing-balance prior (grey: other solutions within the fit tolerance); produced by
-`topic/E/src/fig_lift3d_examples.py`. The balance prior makes the skeleton stand upright over its
+`bioera/analysis/src/fig_lift3d_examples.py`. The balance prior makes the skeleton stand upright over its
 feet but did not improve trunk-angle accuracy against motion capture (Supplementary Table S9.1).
 
 ![Supplementary Fig. S9](docs/S9.jpg)
@@ -27,13 +27,13 @@ feet but did not improve trunk-angle accuracy against motion capture (Supplement
 ```bash
 conda env create -f environment.yml && conda activate bioera
 python -m pytest -q ace_pose/tests          # unit tests
-bash topic/E/src/reproduce.sh --quick       # analyses + number check, about 5 min
-bash topic/E/src/reproduce.sh               # also re-scores all 6,007 poses, about 30-60 min on CPU
+bash bioera/analysis/src/reproduce.sh --quick       # analyses + number check, about 5 min
+bash bioera/analysis/src/reproduce.sh               # also re-scores all 6,007 poses, about 30-60 min on CPU
 ```
 
 `reproduce.sh` ends with `verify_manuscript_numbers.py`, which recomputes every checked
 number of the paper from the regenerated results and compares it with the value printed
-in the paper (`topic/E/src/paper_numbers_expected.json` lists each value, the manuscript
+in the paper (`bioera/analysis/src/paper_numbers_expected.json` lists each value, the manuscript
 section or table it appears in, and how it is computed). The last line reads
 `N MATCH, 0 not matching`. Sections that need data not included here are listed as SKIP
 with the reason.
@@ -55,13 +55,13 @@ with the reason.
 | `ace_pose/xai.py` | Exact Shapley attribution (Section 3.8) |
 | `ace_pose/vlm_context.py` | Heuristic and vision-language-model context extraction (Section 3.9) |
 | `ace_pose/tests/` | Unit tests, including table cells pinned to the published tables |
-| `topic/A/src/public/` | Standards cross-check, Shapley axioms, calibration and equivalence experiments |
-| `topic/E/src/` | Analyses and figures of this manuscript, `reproduce.sh`, and the number check |
-| `topic/E/src/fig_expert_load_fix.py`, `fig_expert_comparison.py` | Expert pilot: code-correction stages (Table 5) and confusion matrices (Fig. 13) |
-| `topic/E/src/eval_action_agreement*.py` | Action-level agreement (confusion matrices, accuracy, F1, kappa) against the expert and against the dataset annotations, with the frozen 80/20 split |
-| `topic/E/src/select_heldout_images.py` | Draws and freezes 36 images that were reserved for a second expert round; that round did not take place and no expert has scored them |
-| `topic/E/src/exp_r2_*.py`, `topic/E/tests/test_exp_r2_*.py`, `topic/E/tools/build_r2_summaries.py` | Analyses added in the second revision: comparison against annotation-derived scores on worker-grouped folds, perturbation-model validation, Monte Carlo sensitivity, measured-residual resampling, selective acceptance, fusion comparison, assumed-input scenarios, and agreement indices for the expert comparison |
-| `topic/D/src/` | Heuristic vs vision-language-model comparison on 50 images (Section 4.8) |
+| `bioera/core_experiments/src/public/` | Standards cross-check, Shapley axioms, calibration and equivalence experiments |
+| `bioera/analysis/src/` | Analyses and figures of this manuscript, `reproduce.sh`, and the number check |
+| `bioera/analysis/src/fig_expert_load_fix.py`, `fig_expert_comparison.py` | Expert comparison on the 22 development images: the earlier code-correction stages (their table was removed in the second revision, see Supplementary S13.3) and confusion matrices (Fig. 13) |
+| `bioera/analysis/src/eval_action_agreement*.py` | Action-level agreement (confusion matrices, accuracy, F1, kappa) against the expert and against the dataset annotations, with the frozen 80/20 split |
+| `bioera/analysis/src/select_heldout_images.py` | Draws and freezes 36 images that were reserved for a second expert round; that round did not take place and no expert has scored them |
+| `bioera/analysis/src/exp_r2_*.py`, `bioera/analysis/tests/test_exp_r2_*.py`, `bioera/analysis/tools/build_r2_summaries.py` | Analyses added in the second revision: comparison against annotation-derived scores on worker-grouped folds, perturbation-model validation, Monte Carlo sensitivity, measured-residual resampling, selective acceptance, fusion comparison, assumed-input scenarios, and agreement indices for the expert comparison |
+| `bioera/vlm_comparison/src/` | Heuristic vs vision-language-model comparison on 50 images (Section 4.8) |
 | `ace_pose/_runs/batch_v1/` | Derived per-pose data (below) |
 
 ## Data
@@ -77,16 +77,16 @@ access terms, so they are not included. This repository contains data derived fr
   pipeline; `mc_distributions.npz`, `c4_*`: Monte Carlo distributions and calibration;
   `analysis/*.csv`: cohort analyses.
 - `ace_pose/_runs/contact_cohort/`: 2D poses of all other people detected in each image (Section 4.9).
-- `topic/D/result/exp-vlm50-context-comparison/per_image.csv`: per-image outputs of the two
+- `bioera/vlm_comparison/result/exp-vlm50-context-comparison/per_image.csv`: per-image outputs of the two
   context backends.
-- `topic/E/result/reproduce/*/metrics.json`: the experiment outputs the paper reports.
-- `topic/E/result/action_agreement/`: per-image action levels from the annotated and the estimated
+- `bioera/analysis/result/reproduce/*/metrics.json`: the experiment outputs the paper reports.
+- `bioera/analysis/result/action_agreement/`: per-image action levels from the annotated and the estimated
   keypoints (`per_image_labels.csv`), the metrics, and the frozen 20% evaluation list with its SHA-256.
-- `topic/E/result/heldout_selection/`: the list of 36 images reserved for a second expert round, drawn and
+- `bioera/analysis/result/heldout_selection/`: the list of 36 images reserved for a second expert round, drawn and
   frozen (SHA-256 alongside) before the corrections of Section 4.9 were made. The round did not take place:
   no expert has scored these images and the manuscript does not use them. The list is kept so that the
   record stays unchanged.
-- `topic/E/result/exp-r2-*/`: metrics and tables of the second-revision analyses (files under 1 MB).
+- `bioera/analysis/result/exp-r2-*/`: metrics and tables of the second-revision analyses (files under 1 MB).
   The per-image table of the expert comparison is withheld with the expert's scores.
 
 Steps that need the images (pose inference, the guarded-fusion panel, the backbone
@@ -102,7 +102,7 @@ recomputes the metrics from the shipped `per_image_labels.csv`.
 |---|---|---|
 | Source images and annotations | Distributed by AI-Hub under its own access terms | Runs from the shipped pose caches; image steps need `--images` |
 | Face and hand keypoints | Privacy; no analysis uses them | Set to zero in the pose caches |
-| Expert's numeric scores for the 22 pilot images | Added to `datasets/public/expert_pilot_22/` once the expert consents to their release | Expert steps are skipped and listed as SKIP by the number check |
+| Expert's numeric scores for the 22 development images | Not released; the manuscript reports aggregate counts only | Expert steps are skipped and listed as SKIP by the number check |
 | Expert's free-text reasons | Not released | Only keyword-derived mechanism flags are used |
 
 ## Notes

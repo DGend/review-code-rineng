@@ -2,11 +2,11 @@
   "datasets": {
     "expert_pilot_22": {
       "path": "public/expert_pilot_22/expert_pilot_scores.csv",
-      "note": "independent expert scores of 22 images; added once the expert consents to release"
+      "note": "expert scores of the 22 development images; not released (the manuscript reports aggregate counts only)"
     },
     "cohort_pose_cache": {"path": "../ace_pose/_runs/batch_v1"},
-    "fusion_detections": {"path": "../topic/E/result/exp-r2-fusion-comparison/detections.npz"},
-    "action_agreement_test_split": {"path": "../topic/E/result/action_agreement/test_split_20.csv"},
+    "fusion_detections": {"path": "../bioera/analysis/result/exp-r2-fusion-comparison/detections.npz"},
+    "action_agreement_test_split": {"path": "../bioera/analysis/result/action_agreement/test_split_20.csv"},
     "aihub_busan_annotations": {
       "path": "restricted/data_v5.csv",
       "note": "annotation table of the Busan dataset (AI-Hub access terms); see README, Data"

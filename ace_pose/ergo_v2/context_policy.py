@@ -32,5 +32,5 @@ def cohort_context(process_label: str | None) -> dict:
     calibration, attribution): posture only. Task loads are defined for some tasks only and
     are provisional, so applying them across the cohort would make domain differences reflect
     which tasks have a load entry rather than the postures. They enter the expert comparison
-    and a sensitivity analysis (topic/E/result/taskload_sensitivity)."""
+    and a sensitivity analysis (bioera/analysis/result/taskload_sensitivity)."""
     return {**task_context(process_label), "load_kg": 0.0, "load_repeated": False}
