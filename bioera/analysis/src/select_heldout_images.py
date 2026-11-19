@@ -1,9 +1,9 @@
 # PWW-DISCLOSURE: public
 """Freeze a held-out image set for the second expert-scoring round, before any rule change.
 
-The 22 pilot images were used to find the scorer's problems, so they cannot also
+The 22 development images were used to find the scorer's problems, so they cannot also
 test the fixes. This draws a new set the scorer has never been tuned on:
-  - every recording session that contains a pilot image is excluded;
+  - every recording session that contains a development image is excluded;
   - only images whose analysed person matches the labelled worker are eligible;
   - 12 images per domain, at most MAX_PER_SESSION per session, spread over processes
     (round-robin over processes, random within each, fixed seed).

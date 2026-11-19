@@ -8,7 +8,7 @@ For every model and image, the detection that best matches the labelled worker i
               the labelled worker is found (match distance <= LABEL_MATCH_MAX);
   downstream  OWAS/RULA/REBA action levels from each model's 2D pose with the same scorer,
               task context and joint set, against the levels from the annotated keypoints
-              (evaluation images) and against the expert (22 pilot images).
+              (evaluation images) and against the expert (22 development images).
 Models: the current RTMW3D-x (cached poses) and every <model>.npz written by
 compare_pose_models_infer.py or the DETRPose runner.
 

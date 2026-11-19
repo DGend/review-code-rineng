@@ -115,7 +115,7 @@ class HeuristicBackend(VLMBackend):
         either wrist is within ``0.6x`` the primary worker's shoulder
         width of that person's pelvis/shoulders, the worker is inferred
         to be physically supporting another person's body weight (e.g.
-        an eldercare transfer/assist), which independent expert scoring
+        an eldercare transfer/assist), which the expert's scoring
         flagged as a >=20 kg load that the pose-only heuristic below
         cannot see (no second person's keypoints were persisted at
         batch-inference time; see Section 4.9). This is a narrow,

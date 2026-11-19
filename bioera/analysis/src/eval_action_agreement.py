@@ -2,7 +2,7 @@
 """Confusion matrices and classification metrics for OWAS/RULA/REBA action levels.
 
 Two references:
-  expert   the ergonomics expert's action levels on the 22 pilot images (development
+  expert   the ergonomics expert's action levels on the 22 images (development
            set), for the scores as submitted and for the current code;
   labels   all cohort images: the action level computed from the dataset's annotated
            2D keypoints, against the one computed from the pipeline's pose. Both use the

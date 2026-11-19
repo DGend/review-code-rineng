@@ -70,7 +70,7 @@ done
 if [ -f datasets/public/expert_pilot_22/expert_pilot_scores.csv ]; then
   step fig_expert_comparison    "$PY" bioera/analysis/src/fig_expert_comparison.py
 fi
-# action-level agreement: expert pilot (if released) and dataset-annotation reference (Section 4.9);
+# action-level agreement: expert comparison (run only where the expert's scores are present; they are not released) and dataset-annotation reference (Section 4.9);
 # without the AI-Hub annotations it recomputes the metrics from the shipped per-image levels
 step action_agreement           "$PY" bioera/analysis/src/eval_action_agreement.py
 step action_agreement_split     "$PY" bioera/analysis/src/eval_action_agreement_split.py

@@ -1,8 +1,8 @@
 # PWW-DISCLOSURE: public
-"""Figure 13: pipeline vs. independent-expert action levels on the 22 pilot
+"""Figure 13: pipeline vs. expert action levels on the 22 development
 images, as submitted and after the corrections of Section 4.9.
 
-Source data (public, derived): pww_data.resolve("expert_pilot_22"), the
+Source data (not released): pww_data.resolve("expert_pilot_22"), the
 numeric table built from the expert's workbook by the private script
 build_expert_pilot_table.py. Each (image, standard) has a "system_submitted"
 row (the pipeline score sent to the expert) and an "expert" row. The

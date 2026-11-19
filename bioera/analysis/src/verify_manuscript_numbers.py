@@ -438,7 +438,7 @@ if section("vlm", [vlm]):
     check("letter", f"agreement is {norm} percent", "normalised load (letter)")
     check("letter", f"of the {len(fl)} poses", "flagged load (letter)")
 
-# --- expert pilot (Section 4.9, letter); the expert's scores are not released -----
+# --- expert comparison (Section 4.9, letter); the expert's scores are not released -----
 exp_csv = ROOT / "ace_pose/_runs/expert_pilot/expert_vs_pipeline.csv"
 exp_scores = ROOT / "datasets/public/expert_pilot_22/expert_pilot_scores.csv"
 if section("expert", [exp_csv, exp_scores, E / "result/exp-r2-expert-agreement/agreement.csv", E / "result/exp-r2-expert-agreement/per_image.csv"]):

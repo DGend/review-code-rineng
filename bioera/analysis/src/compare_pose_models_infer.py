@@ -1,8 +1,8 @@
 # PWW-DISCLOSURE: public
 """Run alternative pose models on the comparison images and cache every detected person.
 
-Images: the frozen 20% evaluation list (eval_action_agreement_split.py) and the 22 expert
-pilot images. For each image the 2D keypoints and scores of all detected people are stored,
+Images: the frozen 20% evaluation list (eval_action_agreement_split.py) and the 22 expert-scored
+development images. For each image the 2D keypoints and scores of all detected people are stored,
 COCO-17 body order first (whole-body models also keep their six foot points, 17-22).
 The current pipeline's RTMW3D-x poses are not re-run: its cached poses are read directly by
 compare_pose_models_eval.py.
